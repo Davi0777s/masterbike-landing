@@ -1,0 +1,16 @@
+LOGO DE MASTER BIKE
+===================
+
+Coloca aquí tu logo con estos nombres exactos:
+
+  - logo.png       -> logo principal (se muestra en el header). Ideal: PNG con
+                      fondo transparente, alto ~70px o más. También sirve .svg
+                      (renómbralo a logo.png o cambia la ruta en index.html).
+
+  - favicon.png    -> ícono de la pestaña del navegador. Cuadrado, 64x64 px.
+
+Mientras no exista logo.png, el sitio muestra automáticamente un logo de texto
+"MASTERBIKE" para que nada se vea roto.
+
+Para cambiar la ruta o el tamaño, edita en index.html la etiqueta <img class="brand-logo" ...>
+y en css/styles.css la clase .brand-logo (altura).

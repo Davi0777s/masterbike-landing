@@ -1,0 +1,20 @@
+# Herramientas de agentes / skills (no van al deploy)
+.claude/
+.agents/
+.cursor/
+.gemini/
+.codex/
+
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+*.log

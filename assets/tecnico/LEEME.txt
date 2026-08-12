@@ -1,0 +1,22 @@
+FOTOS Y VIDEO DEL TÉCNICO
+=========================
+
+Aquí van tus fotos/video reales trabajando. El layout ya está preparado:
+solo pones los archivos con estos nombres y aparecen solos, sin tocar el diseño.
+
+1) FOTO DE PERFIL (sección "Quién repara tu equipo")
+   Nombre: perfil.jpg   (proporción vertical 4:5, ej. 800 x 1000 px)
+   Foto real trabajando en una máquina, NO pose de estudio.
+   Mientras no exista, se muestra un recuadro placeholder con una nota.
+
+2) FOTO / VIDEO DEL HERO (opcional, reemplaza la "Orden de servicio")
+   Nombre: hero.jpg
+   Para usarla: abre index.html, busca "PLACEHOLDER FOTO/VIDEO" dentro de
+   <div class="hero-visual"> y descomenta la línea <img class="hero-photo" ...>,
+   luego borra o comenta la tarjeta <article class="order-card"> de abajo.
+
+CONSEJOS
+   - Comprime las imágenes antes de subirlas (ej. squoosh.app) para que la
+     página cargue rápido. Apunta a menos de 300 KB por foto.
+   - Si tienes un video corto (10-15s), guárdalo como tecnico.mp4 y lo
+     conectamos en VS Code cuando lo decidas (evaluar peso de carga).
