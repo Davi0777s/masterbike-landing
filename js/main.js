@@ -59,7 +59,6 @@
     wrap.innerHTML = (CFG.servicios || []).map((s, i) => `
       <article class="service-card mb-reveal ${["", "d1", "d2", "d3"][i % 4]} ${s.destacado ? "is-featured" : ""}">
         ${s.destacado ? '<span class="service-tag">Más pedido</span>' : ""}
-        <span class="service-num">SVC-${String(i + 1).padStart(2, "0")}</span>
         <h3>${s.titulo}</h3>
         <p>${s.desc}</p>
         ${(s.incluye && s.incluye.length) ? `
