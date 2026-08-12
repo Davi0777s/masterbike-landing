@@ -14,7 +14,8 @@
   --gris-100: #f2f2f0;
   --gris-200: #e4e4e1;
   --gris-300: #cfcfcb;
-  --gris-500: #67676a;   /* oscurecido para pasar contraste WCAG AA sobre claro */
+  --gris-500: #67676a;        /* muted sobre fondo CLARO (WCAG AA) */
+  --gris-mute-dark: #9b9b9e;  /* muted sobre fondo OSCURO (footer, cards negras) */
   --tinta:    #1c1c1e;
 
   --verde-ok:   #1FA463;    /* estado "al día" */
@@ -223,7 +224,7 @@ p { margin: 0; }
   box-shadow: 0 0 0 3px rgba(31,164,99,.25); animation: credpulse 2.2s infinite; }
 @keyframes credpulse { 0%,100% { box-shadow: 0 0 0 3px rgba(31,164,99,.25); } 50% { box-shadow: 0 0 0 7px rgba(31,164,99,0); } }
 .cred-name { font-family: var(--font-display); font-size: 1.55rem; letter-spacing: .02em; line-height: 1; margin-top: 5px; }
-.cred-role { font-size: .74rem; color: var(--gris-300); margin-top: 2px; }
+.cred-role { font-size: .78rem; color: var(--gris-300); margin-top: 2px; }
 
 /* Sello "revisado" (guiño a la orden de servicio) */
 .hero-stamp { position: absolute; top: 16px; right: 16px; z-index: 2;
@@ -289,11 +290,11 @@ p { margin: 0; }
 .order-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
   padding-bottom: 16px; border-bottom: 1px dashed rgba(255,255,255,.18); }
 .order-kicker { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .22em;
-  text-transform: uppercase; color: var(--gris-500); }
+  text-transform: uppercase; color: var(--gris-mute-dark); }
 .order-no { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; margin-top: 4px; }
 .order-rows { margin: 16px 0; display: grid; gap: 11px; }
 .order-rows > div { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }
-.order-rows dt { font-size: .82rem; color: var(--gris-500); }
+.order-rows dt { font-size: .82rem; color: var(--gris-mute-dark); }
 .order-rows dd { margin: 0; font-weight: 600; font-size: .95rem; text-align: right; }
 .order-strip {
   display: flex; align-items: center; gap: 10px;
@@ -501,7 +502,7 @@ p { margin: 0; }
 .footer-zonas li { font-size: .8rem; color: var(--gris-300);
   border: 1px solid rgba(255,255,255,.14); border-radius: 20px; padding: 4px 11px; }
 .footer-col .footer-h { font-family: var(--font-mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .12em;
-  color: var(--gris-500); margin-bottom: 14px; font-weight: 700; }
+  color: var(--gris-mute-dark); margin-bottom: 14px; font-weight: 700; }
 .footer-col a { display: inline-block; margin-bottom: 8px; color: #fff; font-weight: 500; }
 .footer-col a:hover { color: var(--rojo); }
 .footer-col p { font-size: .9rem; }
@@ -513,7 +514,7 @@ p { margin: 0; }
 .footer-soon .badge { margin-bottom: 10px; }
 .footer-bottom { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
   margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1);
-  font-size: .82rem; color: var(--gris-500); }
+  font-size: .82rem; color: var(--gris-mute-dark); }
 
 /* ======================= WHATSAPP FLOTANTE ======================= */
 .wa-float {
