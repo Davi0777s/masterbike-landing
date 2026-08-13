@@ -279,8 +279,8 @@ p { margin: 0; }
 /* ===================== REVELADO AL SCROLL (motion Emil-style) =====================
    Solo se oculta cuando el JS está activo (html.js-reveal). Si el JS falla,
    el contenido queda visible: nunca se pierde. */
-.js-reveal .mb-reveal { opacity: 0; transform: translateY(22px);
-  transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+.js-reveal .mb-reveal { opacity: 0; transform: translateY(24px) scale(.985);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
 .js-reveal .mb-reveal.in { opacity: 1; transform: none; }
 .mb-reveal.d1 { transition-delay: .09s; }
 .mb-reveal.d2 { transition-delay: .18s; }
@@ -365,7 +365,7 @@ p { margin: 0; }
   background: #fff; border: var(--line); border-radius: var(--radius);
   padding: 26px 24px; transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s;
 }
-.service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--gris-300); }
+.service-card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -26px rgba(0,0,0,.4); border-color: var(--rojo); }
 .service-card.is-featured { border-color: var(--rojo); box-shadow: 0 0 0 1px var(--rojo) inset; }
 .service-tag {
   position: absolute; top: -11px; left: 24px;
@@ -399,9 +399,11 @@ p { margin: 0; }
   font-weight: 600; font-size: .92rem; background: #fff;
   transition: border-color .2s, transform .2s, box-shadow .2s;
 }
-.machines-list li:hover { border-color: var(--negro); transform: translateY(-3px); box-shadow: var(--shadow); }
+.machines-list li:hover { border-color: var(--rojo); transform: translateY(-4px); box-shadow: 0 20px 40px -22px rgba(0,0,0,.35); }
+.machines-list li:hover .mch-ico { transform: scale(1.1); background: rgba(228,20,31,.14); }
 .machines-list .mch-ico { display: inline-grid; place-items: center; width: 42px; height: 42px;
-  border-radius: 10px; background: rgba(228,20,31,.08); flex: none; }
+  border-radius: 10px; background: rgba(228,20,31,.08); flex: none;
+  transition: transform .3s cubic-bezier(.16,1,.3,1), background .3s; }
 .machines-list .ico { width: 22px; height: 22px; color: var(--rojo); }
 
 /* ============================= COBERTURA ============================= */
@@ -436,7 +438,9 @@ p { margin: 0; }
   border: var(--line); border-radius: var(--radius); padding: 26px 24px; background: #fff;
   transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s;
 }
-.dif-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--gris-300); }
+.dif-card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -26px rgba(0,0,0,.4); border-color: var(--rojo); }
+.dif-card:hover .dif-ico { transform: scale(1.08) rotate(-3deg); background: rgba(228,20,31,.14); }
+.dif-ico { transition: transform .3s cubic-bezier(.16,1,.3,1), background .3s; }
 .dif-ico {
   display: inline-grid; place-items: center; width: 50px; height: 50px; border-radius: 12px;
   background: rgba(228,20,31,.08); color: var(--rojo); margin-bottom: 16px;
@@ -639,7 +643,7 @@ input:focus, select:focus, textarea:focus {
 .review-card { background: #fff; border: var(--line); border-radius: var(--radius); padding: 26px 24px;
   display: flex; flex-direction: column;
   transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s; }
-.review-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--gris-300); }
+.review-card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -26px rgba(0,0,0,.4); border-color: var(--rojo); }
 .review-stars { color: var(--ambar); letter-spacing: 3px; font-size: 1.05rem; }
 .review-text { margin: 14px 0 20px; color: var(--tinta); font-size: .96rem; line-height: 1.55; flex: 1; }
 .review-foot { display: flex; align-items: center; gap: 12px; }
@@ -689,6 +693,18 @@ input:focus, select:focus, textarea:focus {
 
 /* Ticket en vivo */
 .agenda-ticket { position: sticky; top: 90px; }
+
+/* ===================== DETALLES PREMIUM (micro-interacciones) ===================== */
+/* Barra de progreso de scroll (fina, roja, arriba) */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--rojo);
+  z-index: 200; pointer-events: none; box-shadow: 0 0 0 rgba(0,0,0,0); }
+/* Flecha/ícono de los botones se desliza al hover */
+.btn .ico { transition: transform .25s cubic-bezier(.16,1,.3,1); }
+.btn:hover .ico { transform: translateX(4px); }
+/* Parallax del hero cinematográfico */
+.hero-bg { will-change: transform; }
+/* Sombra sutil del header al hacer scroll */
+.site-header.scrolled { box-shadow: 0 8px 24px -16px rgba(0,0,0,.35); }
 
 /* ============================ RESPONSIVE ============================ */
 @media (max-width: 940px) {

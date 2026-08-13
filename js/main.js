@@ -416,6 +416,25 @@ Enviado desde la web. ¡Quedo atento a la confirmación!`;
     els.forEach(el => io.observe(el));
   }
 
+  /* Efectos de scroll: barra de progreso + parallax del hero + sombra del header */
+  function initScrollFx() {
+    const bar = $(".scroll-progress");
+    const heroBg = $(".hero-bg");
+    const header = $(".site-header");
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let ticking = false;
+    function update() {
+      const st = window.scrollY || document.documentElement.scrollTop || 0;
+      const h = (document.documentElement.scrollHeight - window.innerHeight) || 1;
+      if (bar) bar.style.width = Math.min(100, Math.max(0, (st / h) * 100)) + "%";
+      if (header) header.classList.toggle("scrolled", st > 8);
+      if (heroBg && !reduce && st < window.innerHeight) heroBg.style.transform = "translateY(" + (st * 0.14) + "px) scale(1.08)";
+      ticking = false;
+    }
+    window.addEventListener("scroll", () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } }, { passive: true });
+    update();
+  }
+
   /* ================================ INIT ================================ */
   document.addEventListener("DOMContentLoaded", () => {
     fillGlobals();
@@ -428,6 +447,7 @@ Enviado desde la web. ¡Quedo atento a la confirmación!`;
     renderFaqs();
     initReveal();
     animateStats();
+    initScrollFx();
     renderSocial();
     renderFormOptions();
     bindEvents();
