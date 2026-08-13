@@ -19,6 +19,18 @@ window.MASTERBIKE = {
   email: "sumasterbike@outlook.com",
 
   /* -------------------------------------------------------------------
+     MEDICIÓN (todo gratis). Pega aquí los IDs de cada herramienta.
+     Mientras estén vacíos ("") NO se carga nada (sin errores).
+     Guía para obtener cada uno: ver README.md → "Medición".
+     ------------------------------------------------------------------- */
+  tracking: {
+    ga4:         "",   // Google Analytics 4 → "G-XXXXXXXXXX"
+    metaPixel:   "",   // Meta (Facebook/Instagram) Pixel → ID numérico
+    tiktokPixel: "",   // TikTok Pixel → "CXXXXXXXXXXXXXXXXXX"
+    clarity:     "",   // Microsoft Clarity → ID de proyecto (10 caracteres)
+  },
+
+  /* -------------------------------------------------------------------
      2) ZONA DE COBERTURA
      "coberturaBase": tu ciudad principal.
      "municipios": alrededores donde también atiendes (edita libremente).

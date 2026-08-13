@@ -336,6 +336,7 @@ Enviado desde la web. ¡Quedo atento a la confirmación!`;
 
     const phone = (CFG.whatsapp || "").replace(/\D/g, "");
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    if (window.mbTrack) window.mbTrack("lead", { maquina: d.maquina, servicio: d.servicio });
     window.open(url, "_blank");
 
     // feedback breve
