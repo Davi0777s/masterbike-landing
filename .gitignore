@@ -5,10 +5,18 @@
 .gemini/
 .codex/
 
-# Node
+# Next.js / Node
 node_modules/
-npm-debug.log*
-package-lock.json
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# Entorno
+.env
+.env*.local
+.vercel
 
 # Sistema
 .DS_Store
@@ -18,6 +26,3 @@ desktop.ini
 # Editores
 .vscode/
 *.log
-
-# Node manifest (puppeteer local para detector, no va al deploy)
-package.json
