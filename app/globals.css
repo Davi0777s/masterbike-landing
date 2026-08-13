@@ -822,3 +822,43 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opa
 .done-check .ico { width: 30px; height: 30px; stroke-width: 3; }
 .agenda-done h3 { font-family: var(--font-display); font-size: 2rem; color: #fff; }
 .agenda-done p { color: var(--gris-300); max-width: 46ch; }
+
+/* ============================ PANEL DEL TÉCNICO ============================ */
+.panel { padding: clamp(28px, 5vw, 56px) 0 80px; min-height: 100vh; }
+.panel-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+.panel-kicker { font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--gris-500); }
+.panel-top h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.2rem); color: #fff; }
+
+.panel-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+.pm { background: #16161a; border: var(--line); border-radius: var(--radius); padding: 20px; text-align: center; }
+.pm-num { display: block; font-family: var(--font-display); font-size: 2.6rem; line-height: 1; color: var(--rojo); }
+.pm-lbl { display: block; margin-top: 6px; font-size: .82rem; color: var(--gris-300); }
+
+.panel-days { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.panel-day { background: #0e0e10; border: var(--line); border-radius: var(--radius); padding: 18px; }
+.panel-day h2 { font-family: var(--font-display); font-size: 1.5rem; color: #fff; margin-bottom: 12px; letter-spacing: .01em; }
+.panel-day h2 span { color: var(--rojo); font-size: 1.1rem; }
+.panel-empty { font-size: .86rem; color: var(--gris-500); }
+
+.panel-cita { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-top: var(--line); }
+.panel-cita.done { opacity: .55; }
+.pc-time { font-family: var(--font-mono); font-weight: 700; font-size: .92rem; color: #fff; min-width: 68px; }
+.pc-body { flex: 1; min-width: 0; }
+.pc-cliente { font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pc-tel { font-family: var(--font-mono); font-size: .72rem; color: #25D366; border: 1px solid rgba(37,211,102,.35); border-radius: 20px; padding: 2px 9px; }
+.pc-meta { font-size: .84rem; color: var(--gris-300); margin-top: 3px; }
+.pc-notas { font-size: .8rem; color: var(--gris-500); margin-top: 4px; font-style: italic; }
+.pc-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+
+/* Login del panel */
+.panel-login { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.panel-login-card { width: 100%; max-width: 380px; background: #16161a; border: var(--line); border-radius: var(--radius); padding: 32px; }
+.panel-login-card h1 { font-family: var(--font-display); font-size: 2rem; color: #fff; }
+.panel-login-card p { color: var(--gris-300); font-size: .9rem; margin: 6px 0 22px; }
+.panel-login-card label { display: block; font-weight: 600; font-size: .86rem; margin-bottom: 7px; }
+.panel-login-card .btn { margin-top: 18px; }
+
+@media (max-width: 720px) {
+  .panel-days { grid-template-columns: 1fr; }
+  .panel-metrics { grid-template-columns: 1fr; }
+}
