@@ -227,40 +227,45 @@
           <span><strong>${s.titulo}</strong><span class="choice-desc">${s.desc}</span></span>
         </label>`).join("");
     }
-    // marcar visualmente la opción elegida
-    $$(".choice input", $("#agendar-form")).forEach(input => {
+    // marcar la opción elegida + AVANZAR de paso automáticamente (interactivo)
+    $$(".choice input", form).forEach(input => {
       input.addEventListener("change", () => {
         const group = input.name;
         $$(`.choice input[name="${group}"]`).forEach(i => i.closest(".choice").classList.remove("checked"));
         input.closest(".choice").classList.add("checked");
         updatePreview();
+        if (group === "maquina") setTimeout(() => goToStep(2), 180);
+        else if (group === "servicio") setTimeout(() => goToStep(3), 180);
       });
     });
   }
 
-  /* ============================ MODAL DE AGENDA ============================ */
-  const modal = $("#agendar-modal");
-  const form  = $("#agendar-form");
-  let lastFocus = null;
+  /* ======================= FLUJO DE AGENDA (por pasos, en línea) ======================= */
+  const form = $("#agendar-form");
+  const TOTAL_STEPS = 4;
+  let currentStep = 1;
 
-  function openModal(preset) {
-    lastFocus = document.activeElement;
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-    // preselección de servicio si vino desde una tarjeta concreta
+  function goToStep(n) {
+    n = Math.max(1, Math.min(TOTAL_STEPS, n));
+    currentStep = n;
+    $$(".flow-step", form).forEach(s => s.classList.toggle("is-active", +s.dataset.step === n));
+    $$(".flow-pip", form).forEach(p => {
+      const i = +p.dataset.pip;
+      p.classList.toggle("is-active", i === n);
+      p.classList.toggle("is-done", i < n);
+    });
+  }
+
+  // Abrir el flujo desde cualquier botón "Agendar": scroll + reset + preselección
+  function openAgenda(preset) {
     if (preset && preset.servicio) {
       const input = $(`.choice input[data-id="${preset.servicio}"]`);
-      if (input) { input.checked = true; input.dispatchEvent(new Event("change")); }
+      if (input) { input.checked = true; input.dispatchEvent(new Event("change", { bubbles: true })); }
     }
-    setTimeout(() => { const f = $(".choice input:checked", form) || $(".choice input", form); if (f) f.focus(); }, 60);
+    goToStep(1);
+    const sec = $("#agenda");
+    if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
     updatePreview();
-  }
-  function closeModal() {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-    if (lastFocus) lastFocus.focus();
   }
 
   // número de orden pseudo-aleatorio estable por sesión
@@ -356,25 +361,29 @@ Enviado desde la web. ¡Quedo atento a la confirmación!`;
 
   /* ============================ EVENTOS GLOBALES ============================ */
   function bindEvents() {
-    // abrir modal (delegado, cubre botones inyectados)
+    // navegación del flujo de agenda (delegado, cubre botones inyectados)
     document.addEventListener("click", (e) => {
       const openBtn = e.target.closest(".js-agendar");
-      if (openBtn) {
-        e.preventDefault();
-        openModal({ servicio: openBtn.dataset.servicio });
+      if (openBtn) { e.preventDefault(); openAgenda({ servicio: openBtn.dataset.servicio }); return; }
+      if (e.target.closest(".flow-back")) { goToStep(currentStep - 1); return; }
+      if (e.target.closest(".flow-next")) {          // "Continuar" del paso fecha
+        const d = getData();
+        const err = $("[data-form-error]");
+        if (currentStep === 3 && (!d.fecha || !d.hora)) {
+          if (err) { err.textContent = "Elige fecha y franja horaria para continuar."; err.hidden = false; }
+          return;
+        }
+        if (err) err.hidden = true;
+        goToStep(currentStep + 1);
         return;
       }
-      if (e.target.closest(".js-close-modal")) { closeModal(); return; }
+      const pip = e.target.closest(".flow-pip");
+      if (pip) { goToStep(+pip.dataset.pip); return; }
     });
 
     // enlaces de whatsapp
     $$(".js-whatsapp").forEach(a => { a.href = whatsappHref(); a.target = "_blank"; a.rel = "noopener"; });
     const wf = $(".wa-float"); if (wf) { wf.href = whatsappHref(); }
-
-    // cerrar con ESC
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-    });
 
     // menú móvil
     const toggle = $(".nav-toggle");

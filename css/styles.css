@@ -632,6 +632,41 @@ input:focus, select:focus, textarea:focus {
 .mobile-cta-wa svg { width: 28px; height: 28px; fill: currentColor; }
 .mobile-cta-book { flex: 1; }
 
+/* ==================== AGENDA — flujo interactivo por pasos ==================== */
+.agenda { background: var(--gris-100); border-top: var(--line); border-bottom: var(--line); }
+.agenda-grid { display: grid; grid-template-columns: 1.35fr .85fr; gap: 26px; align-items: start; }
+.agenda-flow { background: #fff; border: var(--line); border-radius: var(--radius); padding: clamp(22px, 3vw, 34px); }
+
+/* Barra de progreso */
+.flow-bar { list-style: none; display: flex; gap: 8px; margin: 0 0 28px; padding: 0; }
+.flow-pip { flex: 1; display: flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 600;
+  color: var(--gris-500); padding-bottom: 12px; border-bottom: 2px solid var(--gris-200); cursor: pointer;
+  white-space: nowrap; transition: color .2s, border-color .2s; }
+.flow-num { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; flex: none;
+  background: var(--gris-200); color: var(--gris-500); font-family: var(--font-mono); font-size: .74rem;
+  font-weight: 700; transition: background .2s, color .2s; }
+.flow-pip.is-active { color: var(--negro); border-color: var(--rojo); }
+.flow-pip.is-active .flow-num { background: var(--rojo); color: #fff; }
+.flow-pip.is-done { color: var(--negro); border-color: var(--rojo); }
+.flow-pip.is-done .flow-num { background: var(--negro); color: #fff; }
+
+/* Pasos (transición suave) */
+.flow-step { display: none; }
+.flow-step.is-active { display: block; animation: flowin .35s cubic-bezier(.16,1,.3,1); }
+@keyframes flowin { from { opacity: 0; transform: translateY(10px); } }
+.flow-q { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 1.9rem); letter-spacing: .01em; margin-bottom: 18px; }
+.flow-hint { margin-top: 14px; font-size: .82rem; color: var(--gris-500); font-family: var(--font-mono);
+  text-transform: uppercase; letter-spacing: .08em; }
+.flow-step > label { display: block; font-weight: 600; font-size: .86rem; margin: 4px 0 7px; }
+.flow-step textarea { margin-bottom: 4px; }
+.flow-nav { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+.flow-back { background: none; border: 0; color: var(--gris); font-weight: 600; font-size: .92rem; padding: 8px 2px; }
+.flow-back:hover { color: var(--negro); }
+.flow-nav .btn { margin-left: auto; }
+
+/* Ticket en vivo */
+.agenda-ticket { position: sticky; top: 90px; }
+
 /* ============================ RESPONSIVE ============================ */
 @media (max-width: 940px) {
   .hero-grid { grid-template-columns: 1fr; }
@@ -640,6 +675,8 @@ input:focus, select:focus, textarea:focus {
   .dif-grid { grid-template-columns: 1fr 1fr; }
   .machines-list { grid-template-columns: repeat(3, 1fr); }
   .steps { grid-template-columns: 1fr 1fr; gap: 30px 22px; }
+  .agenda-grid { grid-template-columns: 1fr; }
+  .agenda-ticket { position: static; max-width: 400px; }
   .tech-grid { grid-template-columns: 1fr; }
   .tech-media { max-width: 380px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -660,6 +697,9 @@ input:focus, select:focus, textarea:focus {
   .hero-spec > div + div::before { display: none; }
   .reviews-grid { grid-template-columns: 1fr; }
   .choice-grid { grid-template-columns: 1fr 1fr; }
+  /* pips compactos: solo el número + barra de progreso */
+  .flow-pip { gap: 0; font-size: 0; }
+  .flow-num { font-size: .74rem; }
   /* barra CTA fija reemplaza al botón flotante en móvil */
   .wa-float { display: none; }
   body { padding-bottom: 78px; }

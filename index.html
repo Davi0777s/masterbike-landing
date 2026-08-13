@@ -227,6 +227,110 @@
       </div>
     </section>
 
+    <!-- ==================== AGENDA (flujo interactivo por pasos) ==================== -->
+    <section class="agenda" id="agenda">
+      <div class="container">
+        <div class="section-head mb-reveal">
+          <h2 class="section-title">Agenda en 2 minutos</h2>
+          <p class="section-lead">Arma tu orden de servicio paso a paso. Al terminar se abre WhatsApp con todo listo para enviar.</p>
+        </div>
+
+        <div class="agenda-grid">
+          <form class="agenda-flow mb-reveal" id="agendar-form" novalidate>
+            <ol class="flow-bar" aria-label="Progreso">
+              <li class="flow-pip is-active" data-pip="1"><span class="flow-num">1</span> Máquina</li>
+              <li class="flow-pip" data-pip="2"><span class="flow-num">2</span> Servicio</li>
+              <li class="flow-pip" data-pip="3"><span class="flow-num">3</span> Fecha</li>
+              <li class="flow-pip" data-pip="4"><span class="flow-num">4</span> Datos</li>
+            </ol>
+
+            <div class="flow-step is-active" data-step="1">
+              <p class="flow-q">¿Qué máquina necesitas revisar?</p>
+              <div class="choice-grid" data-choice-maquina><!-- inyectado por JS --></div>
+              <p class="flow-hint">Toca una opción para continuar</p>
+            </div>
+
+            <div class="flow-step" data-step="2">
+              <p class="flow-q">¿Qué servicio necesitas?</p>
+              <div class="choice-list" data-choice-servicio><!-- inyectado por JS --></div>
+              <div class="flow-nav"><button type="button" class="flow-back">← Atrás</button></div>
+            </div>
+
+            <div class="flow-step" data-step="3">
+              <p class="flow-q">¿Cuándo te queda bien?</p>
+              <div class="fld-grid">
+                <div>
+                  <label for="f-fecha">Fecha preferida</label>
+                  <input type="date" id="f-fecha" name="fecha" required />
+                </div>
+                <div>
+                  <label for="f-hora">Franja horaria</label>
+                  <select id="f-hora" name="hora" required>
+                    <option value="">Elige…</option>
+                    <option>Mañana (8am – 12m)</option>
+                    <option>Tarde (12m – 5pm)</option>
+                    <option>Noche (5pm – 8pm)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="flow-nav">
+                <button type="button" class="flow-back">← Atrás</button>
+                <button type="button" class="btn btn-primary flow-next">Continuar →</button>
+              </div>
+            </div>
+
+            <div class="flow-step" data-step="4">
+              <p class="flow-q">Tus datos para coordinar</p>
+              <div class="fld-grid">
+                <div>
+                  <label for="f-nombre">Tu nombre</label>
+                  <input type="text" id="f-nombre" name="nombre" placeholder="Nombre y apellido" required />
+                </div>
+                <div>
+                  <label for="f-tel">Teléfono / WhatsApp</label>
+                  <input type="tel" id="f-tel" name="telefono" placeholder="300 000 0000" required />
+                </div>
+              </div>
+              <label for="f-notas">Dirección o notas (opcional)</label>
+              <textarea id="f-notas" name="notas" rows="2" placeholder="Barrio / dirección, marca de la máquina, falla que notas…"></textarea>
+              <p class="form-error" data-form-error hidden></p>
+              <div class="flow-nav">
+                <button type="button" class="flow-back">← Atrás</button>
+                <button type="submit" class="btn btn-primary btn-lg">Enviar por WhatsApp
+                  <svg viewBox="0 0 24 24" class="ico"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+              </div>
+              <p class="form-fineprint">Se abrirá WhatsApp con tu orden lista. Confirmo disponibilidad al recibirla.</p>
+            </div>
+          </form>
+
+          <aside class="agenda-ticket mb-reveal d1" aria-hidden="true">
+            <article class="order-card order-card-live">
+              <div class="order-perf order-perf-top"></div>
+              <header class="order-head">
+                <div>
+                  <p class="order-kicker">Orden de servicio</p>
+                  <p class="order-no" data-live-no>N.º OS-—</p>
+                </div>
+                <span class="badge badge-pending" data-live-badge>Borrador</span>
+              </header>
+              <dl class="order-rows">
+                <div><dt>Máquina</dt><dd data-live-maquina>—</dd></div>
+                <div><dt>Servicio</dt><dd data-live-servicio>—</dd></div>
+                <div><dt>Fecha</dt><dd data-live-fecha>—</dd></div>
+                <div><dt>Cliente</dt><dd data-live-nombre>—</dd></div>
+              </dl>
+              <div class="order-strip">
+                <span class="order-check"><svg viewBox="0 0 24 24" class="ico"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <span data-tecnico-nombre>Master Bike</span> · pendiente de confirmar
+              </div>
+              <div class="order-perf order-perf-bottom"></div>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== QUIÉN REPARA TU EQUIPO ===================== -->
     <section class="section" id="tecnico">
       <div class="container tech-grid">
@@ -339,98 +443,6 @@
   <a class="wa-float js-whatsapp" data-source="float" href="#" aria-label="Escribir por WhatsApp">
     <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.5 8.5 3.5 15.5c0 2.4.7 4.6 1.8 6.6L3 29l7.1-2.3c1.9 1 4.1 1.6 6.4 1.6h.01c6.9 0 12.5-5.5 12.5-12.5S23 3 16 3zm0 22.8h-.01c-2 0-3.9-.5-5.5-1.5l-.4-.2-4.2 1.3 1.3-4.1-.3-.4a10.2 10.2 0 0 1-1.6-5.5C5 9.7 9.9 4.9 16 4.9c2.9 0 5.6 1.1 7.6 3.1a10.6 10.6 0 0 1 3.2 7.5c0 5.8-4.9 10.6-10.8 10.6zm6-7.9c-.3-.2-1.9-1-2.2-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.3-.2-.3 0-.5.1-.7.1-.1.3-.4.5-.6.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6-.1-.2-.8-1.9-1-2.6-.3-.7-.5-.6-.7-.6h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4z"/></svg>
   </a>
-
-  <!-- ====================== MODAL: AGENDAR (ORDEN DE SERVICIO) ====================== -->
-  <div class="modal" id="agendar-modal" aria-hidden="true">
-    <div class="modal-overlay js-close-modal"></div>
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="modal-close js-close-modal" aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" class="ico"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-
-      <div class="modal-body">
-        <!-- Formulario -->
-        <form class="agendar-form" id="agendar-form" novalidate>
-          <h3 id="modal-title" class="modal-title">Agenda tu mantenimiento</h3>
-
-          <fieldset class="fld">
-            <legend>1 · ¿Qué máquina es?</legend>
-            <div class="choice-grid" data-choice-maquina><!-- inyectado por JS --></div>
-          </fieldset>
-
-          <fieldset class="fld">
-            <legend>2 · ¿Qué servicio necesitas?</legend>
-            <div class="choice-list" data-choice-servicio><!-- inyectado por JS --></div>
-          </fieldset>
-
-          <fieldset class="fld fld-grid">
-            <div>
-              <label for="f-fecha">3 · Fecha preferida</label>
-              <input type="date" id="f-fecha" name="fecha" required />
-            </div>
-            <div>
-              <label for="f-hora">Franja horaria</label>
-              <select id="f-hora" name="hora" required>
-                <option value="">Elige…</option>
-                <option>Mañana (8am – 12m)</option>
-                <option>Tarde (12m – 5pm)</option>
-                <option>Noche (5pm – 8pm)</option>
-              </select>
-            </div>
-          </fieldset>
-
-          <fieldset class="fld fld-grid">
-            <div>
-              <label for="f-nombre">4 · Tu nombre</label>
-              <input type="text" id="f-nombre" name="nombre" placeholder="Nombre y apellido" required />
-            </div>
-            <div>
-              <label for="f-tel">Teléfono / WhatsApp</label>
-              <input type="tel" id="f-tel" name="telefono" placeholder="300 000 0000" required />
-            </div>
-          </fieldset>
-
-          <fieldset class="fld">
-            <label for="f-notas">Dirección o notas (opcional)</label>
-            <textarea id="f-notas" name="notas" rows="2" placeholder="Barrio / dirección, marca de la máquina, falla que notas…"></textarea>
-          </fieldset>
-
-          <p class="form-error" data-form-error hidden></p>
-
-          <button type="submit" class="btn btn-primary btn-lg btn-block">
-            Enviar orden por WhatsApp
-            <svg viewBox="0 0 24 24" class="ico"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
-          <p class="form-fineprint">Se abrirá WhatsApp con tu orden lista para enviar. Confirmo disponibilidad al recibirla.</p>
-        </form>
-
-        <!-- Preview vivo: ORDEN DE SERVICIO -->
-        <aside class="modal-preview" aria-hidden="true">
-          <article class="order-card order-card-live">
-            <div class="order-perf order-perf-top"></div>
-            <header class="order-head">
-              <div>
-                <p class="order-kicker">Orden de servicio</p>
-                <p class="order-no" data-live-no>N.º OS-—</p>
-              </div>
-              <span class="badge badge-pending" data-live-badge>Borrador</span>
-            </header>
-            <dl class="order-rows">
-              <div><dt>Máquina</dt><dd data-live-maquina>—</dd></div>
-              <div><dt>Servicio</dt><dd data-live-servicio>—</dd></div>
-              <div><dt>Fecha</dt><dd data-live-fecha>—</dd></div>
-              <div><dt>Cliente</dt><dd data-live-nombre>—</dd></div>
-            </dl>
-            <div class="order-strip">
-              <span class="order-check"><svg viewBox="0 0 24 24" class="ico"><path d="M20 6 9 17l-5-5"/></svg></span>
-              <span data-tecnico-nombre>Master Bike</span> · pendiente de confirmar
-            </div>
-            <div class="order-perf order-perf-bottom"></div>
-          </article>
-        </aside>
-      </div>
-    </div>
-  </div>
 
   <script src="js/config.js"></script>
   <script src="js/tracking.js"></script>
