@@ -206,7 +206,7 @@
       .filter(k => redes[k])
       .map(k => `<a href="${redes[k]}" target="_blank" rel="noopener" aria-label="${k}">${SOCIAL_SVG[k]}</a>`)
       .join("");
-    wrap.innerHTML = html || `<p style="font-size:.85rem;color:var(--gris-500)">Pronto en redes.</p>`;
+    wrap.innerHTML = html || `<p style="font-size:.85rem;color:var(--gris-mute-dark)">Pronto en redes.</p>`;
   }
 
   // Opciones del formulario (máquinas + servicios)
