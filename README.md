@@ -101,6 +101,19 @@ MASTERBIKE/
 
 ---
 
+## 📊 Medición (analítica — todo gratis)
+
+Todo se activa pegando los IDs en `js/config.js` → `tracking`. Crea las cuentas con **sumasterbike@outlook.com**.
+
+| Herramienta | Dónde sacar el ID | Campo en config |
+|---|---|---|
+| **GA4** | analytics.google.com → Admin → Crear propiedad → Flujo de datos Web → "ID de medición" `G-XXXXXXXXXX` | `ga4` |
+| **Meta Pixel** | business.facebook.com → Events Manager → Conectar orígenes → Web → ID del píxel (número) | `metaPixel` |
+| **TikTok Pixel** | ads.tiktok.com → Assets → Events → Web → instalar manualmente → Pixel ID | `tiktokPixel` |
+| **Clarity** | clarity.microsoft.com → New project → Settings → Project ID (10 caracteres) | `clarity` |
+
+Eventos de conversión ya cableados: **Lead** (envío del formulario), **Contact** (clic WhatsApp), **open_form** (clic Agendar). Se envían a las 3 plataformas automáticamente.
+
 ### Pendientes del brief
 - [x] Logo en alta → `assets/logo/logo.jpeg`
 - [x] Zona de cobertura → Ibagué + alrededores (`js/config.js`)
