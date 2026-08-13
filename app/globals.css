@@ -807,3 +807,18 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opa
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; scroll-behavior: auto; transition-duration: .01ms !important; }
 }
+
+/* ==================== AGENDA: slots de horario + éxito ==================== */
+.slots-wrap { margin-top: 16px; }
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.slot-btn { font-family: var(--font-mono); font-size: .86rem; font-weight: 600; padding: 12px 8px;
+  border: 1.5px solid rgba(255,255,255,.16); border-radius: 10px; background: #16161a; color: var(--blanco);
+  transition: border-color .15s, background .15s, transform .12s; }
+.slot-btn:hover { border-color: var(--rojo); transform: translateY(-2px); }
+.slot-btn.sel { border-color: var(--rojo); background: rgba(228,20,31,.12); }
+.agenda-done { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; justify-content: center; }
+.done-check { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%;
+  background: rgba(31,164,99,.16); color: var(--verde-ok); }
+.done-check .ico { width: 30px; height: 30px; stroke-width: 3; }
+.agenda-done h3 { font-family: var(--font-display); font-size: 2rem; color: #fff; }
+.agenda-done p { color: var(--gris-300); max-width: 46ch; }
