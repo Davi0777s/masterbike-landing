@@ -510,7 +510,7 @@ p { margin: 0; }
 
 /* ============================= CTA FINAL ============================= */
 .cta-final {
-  background: var(--negro);
+  background: linear-gradient(150deg, #8C0F17 0%, #2a0509 52%, var(--negro) 100%);
   color: #fff; padding: clamp(74px, 10vw, 128px) 0 clamp(60px, 9vw, 108px);
   text-align: center;
   clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
