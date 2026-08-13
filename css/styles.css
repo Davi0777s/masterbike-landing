@@ -249,7 +249,7 @@ p { margin: 0; }
 .hero-spec > div { display: flex; flex-direction: column; gap: 5px; position: relative; }
 .hero-spec > div + div { padding-left: 20px; }
 .hero-spec > div + div::before { content: ""; position: absolute; left: 0; top: 2px; bottom: 2px; width: 1px; background: var(--gris-200); }
-.hero-spec dt { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gris-500); }
+.hero-spec dt { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris-500); }
 .hero-spec dd { margin: 0; font-weight: 700; font-size: 1rem; color: var(--negro); }
 
 /* ============ HERO CINEMATOGRÁFICO (oscuro, foto inmersiva) ============ */
@@ -260,8 +260,8 @@ p { margin: 0; }
   object-position: 72% 26%; z-index: 0; }
 .hero-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(8,8,9,.95) 0%, rgba(8,8,9,.82) 36%, rgba(8,8,9,.4) 68%, rgba(8,8,9,.12) 100%),
-    linear-gradient(0deg, rgba(8,8,9,.92) 0%, rgba(8,8,9,.12) 42%, transparent 62%); }
+    linear-gradient(90deg, rgba(8,8,9,.97) 0%, rgba(8,8,9,.93) 44%, rgba(8,8,9,.6) 66%, rgba(8,8,9,.2) 86%, transparent 100%),
+    linear-gradient(0deg, rgba(8,8,9,.9) 0%, rgba(8,8,9,.12) 46%, transparent 64%); }
 .hero-cine-inner { position: relative; z-index: 2; width: 100%; }
 .hero-cine .hero-copy { max-width: 640px; }
 .hero-cine .hero-title { font-family: var(--font-display); color: #fff;
@@ -723,6 +723,11 @@ input:focus, select:focus, textarea:focus {
   /* pips compactos: solo el número + barra de progreso */
   .flow-pip { gap: 0; font-size: 0; }
   .flow-num { font-size: .74rem; }
+  /* hero cinematográfico: scrim más parejo y técnico centrado */
+  .hero-cine { min-height: auto; padding-top: clamp(88px, 16vh, 120px); }
+  .hero-bg { object-position: 62% 16%; }
+  .hero-scrim { background:
+    linear-gradient(180deg, rgba(8,8,9,.72) 0%, rgba(8,8,9,.86) 55%, rgba(8,8,9,.95) 100%); }
   /* barra CTA fija reemplaza al botón flotante en móvil */
   .wa-float { display: none; }
   body { padding-bottom: 78px; }
