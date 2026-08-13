@@ -27,7 +27,7 @@ window.MASTERBIKE = {
     ga4:         "",   // Google Analytics 4 → "G-XXXXXXXXXX"
     metaPixel:   "",   // Meta (Facebook/Instagram) Pixel → ID numérico
     tiktokPixel: "",   // TikTok Pixel → "CXXXXXXXXXXXXXXXXXX"
-    clarity:     "",   // Microsoft Clarity → ID de proyecto (10 caracteres)
+    clarity:     "y1htg0bruf",   // Microsoft Clarity → ID de proyecto
   },
 
   /* -------------------------------------------------------------------
