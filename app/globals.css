@@ -717,8 +717,8 @@ body { background: #0b0b0c; color: var(--tinta); }
 /* Header oscuro translúcido */
 .site-header { background: rgba(11,11,12,.82); }
 .brand-logo { background: transparent; box-shadow: none; padding: 0; }
-.nav a { color: var(--gris-300); }
-.nav a:hover { color: #fff; }
+.nav a:not(.btn) { color: var(--gris-300); }
+.nav a:not(.btn):hover { color: #fff; }
 .mobile-menu { background: #0b0b0c; }
 .brand-fallback { color: #fff; }
 
@@ -893,7 +893,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opa
 .device-label { position: absolute; bottom: 14px; z-index: 3; font-family: var(--font-mono); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris-300); }
 .device-empty { z-index: 2; color: var(--gris-500); font-family: var(--font-mono); font-size: .82rem; text-align: center; line-height: 1.6; }
 .device-done { position: absolute; top: 13px; z-index: 4; display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--verde-ok);
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--verde-ok);
   background: rgba(31,164,99,.16); padding: 4px 11px; border-radius: 20px; }
 .device-done .ico { width: 13px; height: 13px; stroke-width: 3; }
 .preview-includes { background: #0e0e10; border: var(--line); border-radius: var(--radius); padding: 18px 20px; }
@@ -903,6 +903,6 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opa
 .preview-includes li .ico { color: var(--verde-ok); width: 15px; height: 15px; stroke-width: 3; flex: none; margin-top: 2px; }
 .preview-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .preview-summary > div { background: #0e0e10; border: var(--line); border-radius: 10px; padding: 12px 14px; }
-.preview-summary span { display: block; font-family: var(--font-mono); font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; color: var(--gris-500); margin-bottom: 3px; }
+.preview-summary span { display: block; font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--gris-500); margin-bottom: 3px; }
 .preview-summary strong { font-size: .9rem; color: #fff; }
 @media (max-width: 620px) { .agenda-preview { position: static; } }
