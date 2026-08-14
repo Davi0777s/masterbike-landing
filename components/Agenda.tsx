@@ -104,13 +104,15 @@ Zona: ${config.cobertura}
             </div>
           ) : (
             <form className="agenda-flow mb-reveal" onSubmit={submit} noValidate>
-              <ol className="flow-bar">
+              <div className="flow-bar" role="list" aria-label="Progreso de la agenda">
                 {PIPS.map((label, i) => (
-                  <li key={label} className={pip(i + 1)} onClick={() => i + 1 < step && go(i + 1)}>
+                  <button type="button" key={label} className={pip(i + 1)} role="listitem"
+                    onClick={() => i + 1 < step && go(i + 1)} disabled={i + 1 >= step}
+                    aria-current={step === i + 1 ? "step" : undefined}>
                     <span className="flow-num">{i + 1}</span> {label}
-                  </li>
+                  </button>
                 ))}
-              </ol>
+              </div>
 
               {step === 1 && (
                 <div className="flow-step is-active">
