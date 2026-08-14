@@ -32,7 +32,9 @@ export default function Agenda() {
 
   const hoy = useMemo(() => new Date().toISOString().split("T")[0], []);
   const maquinaLabel = config.maquinas.find((m) => m.id === maquinaId)?.label ?? "";
+  const machineIcon = config.maquinas.find((m) => m.id === maquinaId)?.icon ?? "otra";
   const servicioTitulo = config.servicios.find((s) => s.id === servicioId)?.titulo ?? "";
+  const includes = config.servicios.find((s) => s.id === servicioId)?.incluye ?? [];
   const go = (n: number) => { setStep(Math.max(1, Math.min(4, n))); setError(""); };
 
   async function loadSlots(f: string) {
@@ -191,25 +193,36 @@ Zona: ${config.cobertura}
             </form>
           )}
 
-          <aside className="agenda-ticket mb-reveal d1" aria-hidden="true">
-            <article className="order-card order-card-live">
-              <div className="order-perf order-perf-top" />
-              <header className="order-head">
-                <div><p className="order-kicker">Orden de servicio</p><p className="order-no">N.º {orderNo}</p></div>
-                <span className={"badge " + (done ? "badge-ok" : "badge-pending")}>{done ? "Registrada" : "Borrador"}</span>
-              </header>
-              <dl className="order-rows">
-                <div><dt>Máquina</dt><dd>{maquinaLabel || "—"}</dd></div>
-                <div><dt>Servicio</dt><dd>{servicioTitulo || "—"}</dd></div>
-                <div><dt>Fecha</dt><dd>{fecha ? fmtFecha(fecha) + (slotLabel ? " · " + slotLabel : "") : "—"}</dd></div>
-                <div><dt>Cliente</dt><dd>{nombre || "—"}</dd></div>
-              </dl>
-              <div className="order-strip">
-                <span className="order-check"><Icon name="check" /></span>
-                {config.tecnico.nombre} · {done ? "confirmando" : "pendiente de confirmar"}
+          <aside className="agenda-preview mb-reveal d1">
+            <div className="device">
+              <div className="device-grid" aria-hidden="true" />
+              <span className="device-corner tl" /><span className="device-corner tr" />
+              <span className="device-corner bl" /><span className="device-corner br" />
+              {maquinaId ? (
+                <>
+                  <div className="device-machine" key={maquinaId}>
+                    <Icon name={machineIcon} className="device-ico" />
+                  </div>
+                  <div className="device-scan" aria-hidden="true" />
+                  <span className="device-label">{maquinaLabel}</span>
+                  {done && <span className="device-done"><Icon name="check" /> Registrada</span>}
+                </>
+              ) : (
+                <p className="device-empty">Elige tu máquina<br />para verla aquí</p>
+              )}
+            </div>
+
+            {includes.length > 0 && (
+              <div className="preview-includes">
+                <p className="pi-title">{servicioTitulo} · incluye</p>
+                <ul>{includes.map((it, i) => <li key={i}><Icon name="check" /><span>{it}</span></li>)}</ul>
               </div>
-              <div className="order-perf order-perf-bottom" />
-            </article>
+            )}
+
+            <div className="preview-summary">
+              <div><span>Fecha</span><strong>{fecha ? fmtFecha(fecha) : "—"}</strong></div>
+              <div><span>Hora</span><strong>{slotLabel || "—"}</strong></div>
+            </div>
           </aside>
         </div>
       </div>

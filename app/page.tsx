@@ -195,16 +195,25 @@ export default function Home() {
               <span className="badge badge-ok tech-badge">Persona real, no un call center</span>
             </div>
             <div className="tech-copy mb-reveal d1">
-              <h2 className="section-title">{c.tecnico.nombre}</h2>
-              <p className="tech-quote">“{c.tecnico.frase}”</p>
+              <h2 className="section-title">Tu máquina en manos de un experto.</h2>
+              <p className="tech-quote">Servicio directo y transparente: yo mismo reviso cada detalle de tu equipo, sin intermediarios ni call centers. Respondo personalmente por cada trabajo.</p>
               <ul className="tech-stats">
-                <li><span className="stat-num">{anios}</span><span className="stat-lbl">años de experiencia</span></li>
-                <li><span className="stat-num">{maquinasN}</span><span className="stat-lbl">máquinas atendidas</span></li>
-                <li><span className="stat-num">{c.cobertura}</span><span className="stat-lbl">zona de cobertura</span></li>
+                <li>
+                  <span className="ts-ico"><Icon name="medal" className="" /></span>
+                  <span className="ts-txt"><span className="ts-num">{anios}</span><span className="ts-lbl">años de experiencia certificada</span></span>
+                </li>
+                <li>
+                  <span className="ts-ico"><Icon name="wrench" className="" /></span>
+                  <span className="ts-txt"><span className="ts-num">{maquinasN}</span><span className="ts-lbl">máquinas atendidas con éxito</span></span>
+                </li>
+                <li>
+                  <span className="ts-ico"><Icon name="pin" className="" /></span>
+                  <span className="ts-txt"><span className="ts-num">{c.coberturaBase}</span><span className="ts-lbl">y alrededores · cobertura completa</span></span>
+                </li>
               </ul>
               <div className="signature">
                 <p className="sign-name">{c.tecnico.nombre}</p>
-                <p className="sign-role">{c.tecnico.cargo}</p>
+                <p className="sign-role">Técnico experto independiente · Master Bike</p>
               </div>
               <a href="#agenda" className="btn btn-primary js-agendar">Agendar con el técnico</a>
             </div>
