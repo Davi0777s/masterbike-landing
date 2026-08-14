@@ -26,7 +26,7 @@ export const viewport: Viewport = { themeColor: "#0b0b0c" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <head>
         {/* Habilita animaciones antes de pintar (sin riesgo de contenido invisible) */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js-reveal')" }} />

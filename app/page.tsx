@@ -104,7 +104,7 @@ export default function Home() {
           <div className="container">
             <div className="section-head mb-reveal">
               <h2 className="section-title">Qué hago por tu equipo</h2>
-              <p className="section-lead">Precios claros por tipo de servicio. Sin sorpresas ni letra pequeña.</p>
+              <p className="section-lead">Qué incluye cada servicio, sin letra pequeña. La cotización te llega por WhatsApp según tu máquina.</p>
             </div>
             <div className="services-grid">
               {c.servicios.map((s, i) => (
