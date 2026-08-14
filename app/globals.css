@@ -719,6 +719,7 @@ body { background: #0b0b0c; color: var(--tinta); }
 .brand-logo { background: transparent; box-shadow: none; padding: 0; }
 .nav a:not(.btn) { color: var(--gris-300); }
 .nav a:not(.btn):hover { color: #fff; }
+.nav a.btn { color: #fff; }
 .mobile-menu { background: #0b0b0c; }
 .brand-fallback { color: #fff; }
 
