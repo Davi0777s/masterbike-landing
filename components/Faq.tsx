@@ -10,9 +10,9 @@ export default function Faq() {
         <div className="section-head mb-reveal">
           <h2 className="section-title">Lo que suelen preguntarme</h2>
         </div>
-        <div className="faq-list">
+        <div className="faq-list mb-reveal">
           {config.faqs.map((f, i) => (
-            <div key={i} className={"faq-item mb-reveal" + (open === i ? " open" : "")}>
+            <div key={i} className={"faq-item" + (open === i ? " open" : "")}>
               <button className="faq-q" type="button" onClick={() => setOpen(open === i ? null : i)}>
                 <span>{f.q}</span><span className="faq-icon" aria-hidden="true" />
               </button>

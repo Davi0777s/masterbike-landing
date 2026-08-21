@@ -96,7 +96,7 @@ Zona: ${config.cobertura}
 
         <div className="agenda-grid">
           {done ? (
-            <div className="agenda-flow mb-reveal agenda-done">
+            <div className="agenda-flow agenda-done">
               <span className="done-check"><Icon name="check" /></span>
               <h3>¡Cita registrada!</h3>
               <p>Tu <strong>{servicioTitulo}</strong> para el <strong>{fmtFecha(fecha)} · {slotLabel}</strong> quedó agendada. Se abrió WhatsApp para confirmarla con Yovani — si no se abrió, escríbenos.</p>
