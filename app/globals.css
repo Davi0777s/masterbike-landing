@@ -817,11 +817,11 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* selección de máquina (chips) */
-.choice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.choice-list { display: grid; gap: 10px; }
+.choice-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.choice-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .choice {
   position: relative; display: flex; align-items: center; gap: 10px;
-  border: 1.5px solid var(--gris-300); border-radius: 10px; padding: 12px 14px;
+  border: 1.5px solid var(--gris-300); border-radius: 12px; padding: 15px 16px;
   font-weight: 600; font-size: .9rem; background: #fff; text-align: left;
   transition: border-color .15s, background .15s, transform .12s;
 }
@@ -885,11 +885,23 @@ input:focus, select:focus, textarea:focus {
 /* ==================== AGENDA — flujo fluido 3D (una sola tarjeta) ==================== */
 /* Adaptación (oscuro/rojo, sin jQuery) de la técnica "fluid booking form": lo elegido
    se colapsa en un resumen arriba y cada paso entra en cascada con profundidad. */
-.agenda { background: var(--gris-100); border-top: var(--line); border-bottom: var(--line); }
+.agenda { background: var(--gris-100); border-top: var(--line); border-bottom: var(--line);
+  padding: clamp(68px, 8vw, 108px) 0; }
 .section-head-center { margin-left: auto; margin-right: auto; text-align: center; }
-.agenda-stage { max-width: 640px; margin: 0 auto; perspective: 1300px; }
+.agenda-stage { max-width: 1080px; margin: 0 auto; perspective: 1300px; }
 .agenda-flow { background: #fff; border: var(--line); border-radius: var(--radius);
-  padding: clamp(24px, 3.4vw, 38px); box-shadow: 0 42px 90px -54px rgba(6,4,40,.5); }
+  padding: clamp(28px, 4vw, 46px); box-shadow: 0 42px 90px -54px rgba(6,4,40,.5); }
+
+.flow-progress { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 30px; }
+.flow-progress-item { position: relative; display: flex; align-items: center; gap: 9px; min-width: 0; padding-bottom: 12px;
+  border-bottom: 2px solid var(--gris-200); color: var(--gris-500); }
+.flow-progress-item::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 0; height: 2px; background: var(--rojo); transition: width .35s var(--ease); }
+.flow-progress-item span { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid currentColor; border-radius: 50%;
+  font-family: var(--font-mono); font-size: .7rem; flex: none; }
+.flow-progress-item strong { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.flow-progress-item.is-active, .flow-progress-item.is-done { color: var(--rojo); }
+.flow-progress-item.is-active::after, .flow-progress-item.is-done::after { width: 100%; }
+.flow-progress-item.is-done span { background: var(--rojo); color: #fff; border-color: var(--rojo); }
 
 /* Resumen colapsado de lo ya elegido (reemplaza la barra de pips) */
 .flow-summary { display: grid; gap: 8px; }
@@ -1008,6 +1020,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opa
   .machines-list { grid-template-columns: repeat(3, 1fr); }
   .steps { grid-template-columns: 1fr 1fr; gap: 30px 22px; }
   .agenda-grid { grid-template-columns: 1fr; }
+  .choice-grid { grid-template-columns: 1fr 1fr; }
+  .choice-list { grid-template-columns: 1fr; }
   .agenda-ticket { position: static; max-width: 400px; }
   .tech-grid { grid-template-columns: 1fr; }
   .tech-media { max-width: 380px; }
@@ -1045,6 +1059,10 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opa
     background: rgba(11,11,12,.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,.1);
     box-shadow: 0 -8px 24px -12px rgba(0,0,0,.5); }
   .fld-grid { grid-template-columns: 1fr; }
+  .flow-progress { gap: 5px; }
+  .flow-progress-item { gap: 5px; padding-bottom: 9px; }
+  .flow-progress-item span { width: 22px; height: 22px; font-size: .62rem; }
+  .flow-progress-item strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .6rem; letter-spacing: .03em; }
   .footer-grid { grid-template-columns: 1fr; gap: 26px; }
   .hero-actions .btn { flex: 1 1 auto; }
   .tech-stats { gap: 20px 26px; }

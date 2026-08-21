@@ -101,6 +101,13 @@ Zona: ${config.cobertura}
             </div>
           ) : (
             <form className="agenda-flow" onSubmit={submit} noValidate>
+              <div className="flow-progress" aria-label="Progreso de la agenda">
+                {["Máquina", "Servicio", "Horario", "Datos"].map((label, i) => (
+                  <div key={label} className={"flow-progress-item" + (step === i + 1 ? " is-active" : "") + (step > i + 1 ? " is-done" : "")}>
+                    <span>{i + 1}</span><strong>{label}</strong>
+                  </div>
+                ))}
+              </div>
               {/* Resumen colapsado de lo ya elegido (cada fila permite volver a ese paso) */}
               <div className="flow-summary">
                 {step > 1 && (
