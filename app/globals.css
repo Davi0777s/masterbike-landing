@@ -123,20 +123,40 @@ p { margin: 0; }
 .mobile-menu a { padding: 12px 6px; font-weight: 600; border-bottom: var(--line); }
 .mobile-menu .btn { margin-top: 10px; }
 
-/* ============================== TICKER ============================== */
-.ticker { background: var(--rojo); color: #fff; overflow: hidden; border-bottom: 2px solid var(--rojo-oscuro); }
-.ticker-track {
-  display: inline-flex; align-items: center; gap: 20px; white-space: nowrap;
-  padding: 9px 0; animation: ticker 32s linear infinite; will-change: transform;
-}
-.ticker:hover .ticker-track { animation-play-state: paused; }
-.ticker-track span:not(.ticker-dot) {
+/* ===================== FRANJA DE ESTADO (rotador vertical) =====================
+   No es una marquesina: la franja está quieta y una sola ranura rota los
+   mensajes verticalmente (roll de una línea), uno a la vez, con pausa para leer.
+   CSS puro, sin re-render. --h = alto de cada renglón (debe coincidir en item y roll). */
+.trust-bar { --h: 1.35rem; background: #0a0a0b; border-bottom: 1px solid rgba(255,255,255,.07);
+  box-shadow: inset 0 1px 0 rgba(228,20,31,.28); }
+.trust-inner { display: flex; align-items: center; gap: 16px; height: calc(var(--h) + 18px); }
+/* Etiqueta de marca: barra roja + texto mono, sin puntos decorativos */
+.trust-tag { position: relative; flex: none; padding-left: 13px;
+  font-family: var(--font-mono); font-size: .68rem; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase; color: #fff; }
+.trust-tag::before { content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 1em; background: var(--rojo); border-radius: 2px;
+  box-shadow: 0 0 9px rgba(228,20,31,.7); }
+.trust-sep { flex: none; width: 1px; height: calc(var(--h) + 2px); background: rgba(255,255,255,.14); }
+/* Ranura: muestra un renglón; el track rueda en pasos discretos */
+.trust-rot { position: relative; height: var(--h); overflow: hidden; flex: 1 1 auto; }
+.trust-roll { margin: 0; padding: 0; list-style: none; will-change: transform;
+  animation: trustRoll 15s cubic-bezier(.7,0,.2,1) infinite; }
+.trust-item { height: var(--h); line-height: var(--h); display: flex; align-items: center;
   font-family: var(--font-mono); font-size: .72rem; font-weight: 500;
-  letter-spacing: .16em; text-transform: uppercase;
+  letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.82); }
+/* 7 renglones (el 7º clona el 1º) → el reinicio es invisible (loop sin salto). */
+@keyframes trustRoll {
+  0%,    11.9% { transform: translateY(0); }
+  14.3%, 26.2% { transform: translateY(calc(var(--h) * -1)); }
+  28.6%, 40.5% { transform: translateY(calc(var(--h) * -2)); }
+  42.9%, 54.8% { transform: translateY(calc(var(--h) * -3)); }
+  57.1%, 69.0% { transform: translateY(calc(var(--h) * -4)); }
+  71.4%, 83.3% { transform: translateY(calc(var(--h) * -5)); }
+  85.7%, 100%  { transform: translateY(calc(var(--h) * -6)); }
 }
-.ticker-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%;
-  background: rgba(255,255,255,.6); flex: none; }
-@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .trust-roll { animation: none; } }
+@media (max-width: 520px) { .trust-tag, .trust-sep { display: none; } }
 
 /* ========================= BARRA DE STATS ========================= */
 .stats-band { background: var(--negro); color: #fff; padding: 30px 0; }
@@ -257,12 +277,36 @@ p { margin: 0; }
 .hero-cine { position: relative; overflow: hidden; background: #0a0a0b; color: #fff;
   display: flex; align-items: center; min-height: min(92vh, 800px);
   padding: clamp(104px, 14vh, 148px) 0 clamp(34px, 5vw, 56px); }
+/* Envoltura del fondo: sobredimensionada para que el parallax al scroll nunca
+   descubra bordes. GSAP mueve/oscurece ESTA capa; la imagen deriva por dentro. */
+.hero-bg-wrap { position: absolute; top: -10%; left: 0; right: 0; height: 120%;
+  z-index: 0; overflow: hidden; will-change: transform, filter; }
 .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  object-position: 72% 26%; z-index: 0; }
+  object-position: 72% 26%;
+  /* Deriva viva (Ken Burns) + revelado de entrada; propiedades disjuntas para no chocar. */
+  animation: heroKenBurns 32s ease-in-out infinite alternate, heroBgIn 1.6s ease both; }
 .hero-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
     linear-gradient(90deg, rgba(8,8,9,.97) 0%, rgba(8,8,9,.93) 44%, rgba(8,8,9,.6) 66%, rgba(8,8,9,.2) 86%, transparent 100%),
-    linear-gradient(0deg, rgba(8,8,9,.9) 0%, rgba(8,8,9,.12) 46%, transparent 64%); }
+    linear-gradient(0deg, rgba(8,8,9,.9) 0%, rgba(8,8,9,.12) 46%, transparent 64%),
+    radial-gradient(130% 120% at 78% 30%, transparent 55%, rgba(0,0,0,.55) 100%); }
+/* Glow rojo de marca (abajo-izquierda) para un aire cinematográfico intencional */
+.hero-glow { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(70% 60% at 6% 96%, rgba(228,20,31,.24), transparent 46%); }
+/* Grano fílmico sutil sobre la foto */
+.hero-grain { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px; }
+@keyframes heroKenBurns {
+  from { transform: scale(1.06) translate3d(0, 0, 0); }
+  to   { transform: scale(1.13) translate3d(-1.6%, -1.3%, 0); } }
+@keyframes heroBgIn {
+  from { opacity: 0; filter: blur(16px) brightness(.6); }
+  to   { opacity: 1; filter: blur(0) brightness(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg { animation: none; }
+  .hero-grain { display: none; } }
 .hero-cine-inner { position: relative; z-index: 2; width: 100%; }
 .hero-cine .hero-copy { max-width: 640px; }
 .hero-cine .hero-title { font-family: var(--font-display); color: #fff;
@@ -337,39 +381,75 @@ p { margin: 0; }
   -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
 .ba-before { z-index: 1; }
 .ba-after { z-index: 2; }
-/* El "después" se revela sobre el "antes" con un barrido izq→der (solo con JS activo).
-   Sin JS queda visible el "después": nunca se rompe. */
-.js-reveal .ba-after { clip-path: inset(0 100% 0 0); transition: clip-path 1.15s cubic-bezier(.16,1,.3,1); }
-.js-reveal .ba-frame.is-revealed .ba-after { clip-path: inset(0 0 0 0); }
-/* Línea de escáner roja viajando en el borde del barrido */
-/* La línea viaja con el MISMO transition/easing que el clip-path del "después",
-   así el escáner queda exactamente en el borde del barrido (sin desincronía). */
-.ba-scan { position: absolute; top: 0; bottom: 0; left: 0; width: 3px; z-index: 3; opacity: 0; pointer-events: none;
+/* El "después" se revela sobre el "antes" con un barrido izq→der LENTO y en bucle
+   automático (sin botón). Sólo corre cuando la tarjeta está en pantalla (.is-inview);
+   fuera de vista se pausa (ahorra CPU y no distrae). Sin JS queda el "después": nunca se rompe.
+   Ritmo (9s): reposo·antes → barrido lento (~3.4s) → sostiene el después (~3.4s) → vuelve. */
+.js-reveal .ba-after,
+.js-reveal .ba-scan,
+.js-reveal .ba-label-antes,
+.js-reveal .ba-label-despues { animation-play-state: paused; animation-duration: 9s;
+  animation-timing-function: linear; animation-iteration-count: infinite;
+  animation-delay: var(--ba-delay, 0s); }
+.js-reveal .ba-after { clip-path: inset(0 100% 0 0); animation-name: baWipe; }
+.js-reveal .ba-frame.is-inview .ba-after,
+.js-reveal .ba-frame.is-inview .ba-scan,
+.js-reveal .ba-frame.is-inview .ba-label-antes,
+.js-reveal .ba-frame.is-inview .ba-label-despues { animation-play-state: running; }
+@keyframes baWipe {
+  0%, 9%   { clip-path: inset(0 100% 0 0); }
+  47%, 85% { clip-path: inset(0 0 0 0); }
+  100%     { clip-path: inset(0 100% 0 0); }
+}
+/* Línea de escáner roja: viaja pegada al borde del barrido (misma cadencia que baWipe). */
+.ba-scan { position: absolute; top: 0; bottom: 0; left: 0; width: 3px; z-index: 4; opacity: 0; pointer-events: none;
   background: linear-gradient(180deg, rgba(228,20,31,0), var(--rojo) 14%, var(--rojo) 86%, rgba(228,20,31,0));
-  box-shadow: 0 0 16px 2px rgba(228,20,31,.7);
-  transition: left 1.15s cubic-bezier(.16,1,.3,1), opacity .45s ease; }
-.js-reveal .ba-frame.is-revealed .ba-scan { left: 100%; opacity: 1; }
-/* Etiquetas Antes / Después */
-.ba-label { position: absolute; top: 12px; z-index: 4; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
-  font-weight: 700; padding: 5px 11px; border-radius: 999px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.ba-label-antes { left: 12px; background: rgba(0,0,0,.55); color: #d8d8d8; border: 1px solid rgba(255,255,255,.16); }
-.ba-label-despues { right: 12px; background: var(--rojo); color: #fff; }
-.js-reveal .ba-label-despues { opacity: 0; transition: opacity .45s ease .78s; }
-.js-reveal .ba-frame.is-revealed .ba-label-despues { opacity: 1; }
-/* Botón repetir */
-.ba-replay { position: absolute; right: 10px; bottom: 10px; z-index: 4; width: 34px; height: 34px; border-radius: 50%;
-  display: grid; place-items: center; background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.18); color: #fff;
-  cursor: pointer; opacity: 0; transition: opacity .3s ease, background .2s ease, border-color .2s ease; }
-.ba-stage:hover .ba-replay, .ba-frame.is-revealed .ba-replay { opacity: .82; }
-.ba-replay:hover { opacity: 1; background: var(--rojo); border-color: var(--rojo); }
+  box-shadow: 0 0 16px 2px rgba(228,20,31,.7); }
+.js-reveal .ba-scan { animation-name: baScanMove; }
+@keyframes baScanMove {
+  0%, 9%  { left: 0;    opacity: 0; }
+  14%     { opacity: 1; }
+  43%     { opacity: 1; }
+  47%     { left: 100%; opacity: 0; }
+  100%    { left: 100%; opacity: 0; }
+}
+/* Etiquetas Antes / Después — barra inferior con degradado + palabra grande legible.
+   El degradado es constante (asegura lectura sobre cualquier foto); la palabra hace
+   cross-fade con el barrido: "Antes" (blanco) se va, "Después" (rojo) entra. */
+.ba-labelbar { position: absolute; left: 0; right: 0; bottom: 0; height: 42%; z-index: 3; pointer-events: none;
+  background: linear-gradient(0deg, rgba(6,6,7,.86) 0%, rgba(6,6,7,.55) 34%, rgba(6,6,7,.12) 70%, transparent 100%); }
+.ba-label { position: absolute; left: clamp(16px, 3.5%, 26px); bottom: clamp(12px, 3%, 20px); z-index: 5;
+  margin: 0; font-family: var(--font-display); font-weight: 700; line-height: 1;
+  font-size: clamp(1.5rem, 4.4vw, 2.2rem); letter-spacing: .01em; text-transform: uppercase;
+  text-shadow: 0 2px 18px rgba(0,0,0,.72); }
+.ba-label-antes { color: #fff; }
+.ba-label-despues { color: var(--rojo); }
+/* Filo rojo bajo la palabra "Después" (acento de marca, no una caja) */
+.ba-label-despues::after { content: ""; display: block; width: 100%; height: 3px; margin-top: 6px;
+  background: var(--rojo); border-radius: 2px; box-shadow: 0 0 12px rgba(228,20,31,.7); }
+/* "Después" entra subiendo cuando el barrido descubre la máquina */
+.js-reveal .ba-label-despues { opacity: 0; animation-name: baLabelShow; }
+@keyframes baLabelShow {
+  0%, 42%  { opacity: 0; transform: translateY(12px); }
+  52%, 85% { opacity: 1; transform: none; }
+  92%,100% { opacity: 0; transform: translateY(12px); }
+}
+/* "Antes" se retira (baja + desvanece) en cuanto el barrido la cruza; vuelve al reiniciar */
+.js-reveal .ba-label-antes { animation-name: baLabelHide; }
+@keyframes baLabelHide {
+  0%, 16%  { opacity: 1; transform: none; }
+  32%, 85% { opacity: 0; transform: translateY(8px); }
+  96%,100% { opacity: 1; transform: none; }
+}
 .ba-cap { padding: 14px 4px 0; }
 .ba-cap h3 { font-size: 1.05rem; margin: 0 0 3px; }
 .ba-cap p { font-size: .9rem; line-height: 1.5; color: var(--gris-mute-dark); margin: 0; }
 @media (max-width: 640px) { .ba-grid { grid-template-columns: 1fr; } .ba-featured { max-width: 100%; } }
 @media (prefers-reduced-motion: reduce) {
-  .js-reveal .ba-after { clip-path: inset(0 0 0 0) !important; transition: none !important; }
+  .js-reveal .ba-after { clip-path: inset(0 0 0 0) !important; animation: none !important; }
   .ba-scan { display: none !important; }
-  .js-reveal .ba-label-despues { opacity: 1 !important; transition: none !important; }
+  .js-reveal .ba-label-antes { opacity: 0 !important; animation: none !important; }
+  .js-reveal .ba-label-despues { opacity: 1 !important; transform: none !important; animation: none !important; }
 }
 
 /* ======================= MOTION ENGINE (Lenis + GSAP) ======================= */
@@ -803,29 +883,53 @@ input:focus, select:focus, textarea:focus {
 .mobile-cta-wa svg { width: 28px; height: 28px; fill: currentColor; }
 .mobile-cta-book { flex: 1; }
 
-/* ==================== AGENDA — flujo interactivo por pasos ==================== */
+/* ==================== AGENDA — flujo fluido 3D (una sola tarjeta) ==================== */
+/* Adaptación (oscuro/rojo, sin jQuery) de la técnica "fluid booking form": lo elegido
+   se colapsa en un resumen arriba y cada paso entra en cascada con profundidad. */
 .agenda { background: var(--gris-100); border-top: var(--line); border-bottom: var(--line); }
-.agenda-grid { display: grid; grid-template-columns: 1.35fr .85fr; gap: 26px; align-items: start; }
-.agenda-flow { background: #fff; border: var(--line); border-radius: var(--radius); padding: clamp(22px, 3vw, 34px); }
+.section-head-center { margin-left: auto; margin-right: auto; text-align: center; }
+.agenda-stage { max-width: 640px; margin: 0 auto; perspective: 1300px; }
+.agenda-flow { background: #fff; border: var(--line); border-radius: var(--radius);
+  padding: clamp(24px, 3.4vw, 38px); box-shadow: 0 42px 90px -54px rgba(6,4,40,.5); }
 
-/* Barra de progreso */
-.flow-bar { list-style: none; display: flex; gap: 8px; margin: 0 0 28px; padding: 0; }
-.flow-pip { flex: 1; display: flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 600;
-  color: var(--gris-500); padding: 0 0 12px; background: none; border: 0; border-bottom: 2px solid var(--gris-200);
-  font-family: inherit; text-align: left; cursor: pointer; white-space: nowrap; transition: color .2s, border-color .2s; }
-.flow-pip:disabled { cursor: default; }
-.flow-num { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; flex: none;
-  background: var(--gris-200); color: #56565a; font-family: var(--font-mono); font-size: .74rem;
-  font-weight: 700; transition: background .2s, color .2s; }
-.flow-pip.is-active { color: var(--negro); border-color: var(--rojo); }
-.flow-pip.is-active .flow-num { background: var(--rojo); color: #fff; }
-.flow-pip.is-done { color: var(--negro); border-color: var(--rojo); }
-.flow-pip.is-done .flow-num { background: var(--negro); color: #fff; }
+/* Resumen colapsado de lo ya elegido (reemplaza la barra de pips) */
+.flow-summary { display: grid; gap: 8px; }
+.flow-summary:not(:empty) { margin-bottom: 22px; }
+.fs-row { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; font: inherit;
+  background: #0e0e10; border: 1px solid rgba(255,255,255,.10); border-radius: 12px; padding: 11px 15px;
+  cursor: pointer; transform-origin: 50% -40%;
+  animation: fsIn .5s cubic-bezier(.645,.045,.355,1) both;
+  transition: border-color .18s, background .18s; }
+.fs-row:hover { border-color: var(--rojo); background: #131316; }
+.fs-k { font-family: var(--font-mono); font-size: .64rem; text-transform: uppercase; letter-spacing: .14em;
+  color: var(--gris-500); flex: none; min-width: 72px; }
+.fs-v { font-weight: 700; font-size: .92rem; color: #fff; flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fs-change { font-family: var(--font-mono); font-size: .64rem; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--rojo); flex: none; opacity: .9; }
+@keyframes fsIn { from { opacity: 0; transform: perspective(700px) translateZ(-55px) translateY(-14px); } }
 
-/* Pasos (transición suave) */
+/* Pasos apilados en profundidad */
+.agenda-steps { position: relative; transform-style: preserve-3d; }
 .flow-step { display: none; }
-.flow-step.is-active { display: block; animation: flowin .35s cubic-bezier(.16,1,.3,1); }
-@keyframes flowin { from { opacity: 0; transform: translateY(10px); } }
+.flow-step.is-active { display: block; }
+/* Cascada con profundidad: cada opción/campo/slot llega escalonado desde el fondo */
+.casc-item { animation: cascIn .58s cubic-bezier(.645,.045,.355,1) both;
+  animation-delay: calc(var(--i, 0) * 62ms + 40ms); }
+@keyframes cascIn { from { opacity: 0; transform: perspective(760px) translateZ(-64px) translateY(20px); } }
+
+/* Bloque "incluye" dentro del paso de datos */
+.flow-includes { background: #0e0e10; border: 1px solid rgba(255,255,255,.10); border-radius: 12px;
+  padding: 14px 16px; margin: 4px 0 18px; }
+.fi-title { display: block; font-family: var(--font-mono); font-size: .66rem; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--rojo); margin-bottom: 9px; }
+.flow-includes ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.flow-includes li { display: flex; gap: 8px; font-size: .84rem; color: var(--gris-300); line-height: 1.4; }
+.flow-includes li .ico { color: var(--verde-ok); width: 15px; height: 15px; stroke-width: 3; flex: none; margin-top: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .casc-item, .fs-row { animation: none !important; }
+}
 .flow-q { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 1.9rem); letter-spacing: .01em; margin-bottom: 18px; }
 .flow-hint { margin-top: 14px; font-size: .84rem; color: var(--gris-500); font-family: var(--font-mono); }
 .flow-step > label { display: block; font-weight: 600; font-size: .86rem; margin: 4px 0 7px; }
@@ -845,8 +949,8 @@ input:focus, select:focus, textarea:focus {
 /* Flecha/ícono de los botones se desliza al hover */
 .btn .ico { transition: transform .25s cubic-bezier(.16,1,.3,1); }
 .btn:hover .ico { transform: translateX(4px); }
-/* Parallax del hero cinematográfico */
-.hero-bg { will-change: transform; }
+/* Parallax del hero cinematográfico (GSAP mueve la envoltura) */
+.hero-bg-wrap { will-change: transform, filter; }
 /* Sombra sutil del header al hacer scroll */
 .site-header.scrolled { box-shadow: 0 8px 24px -16px rgba(0,0,0,.35); }
 
@@ -960,7 +1064,8 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.85); opa
   transition: border-color .15s, background .15s, transform .12s; }
 .slot-btn:hover { border-color: var(--rojo); transform: translateY(-2px); }
 .slot-btn.sel { border-color: var(--rojo); background: rgba(228,20,31,.12); }
-.agenda-done { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; justify-content: center; }
+.agenda-done { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; justify-content: center;
+  animation: cascIn .6s cubic-bezier(.645,.045,.355,1) both; }
 .done-check { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%;
   background: rgba(31,164,99,.16); color: var(--verde-ok); }
 .done-check .ico { width: 30px; height: 30px; stroke-width: 3; }

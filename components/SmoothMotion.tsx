@@ -63,13 +63,14 @@ export default function SmoothMotion() {
       document.addEventListener("click", onAnchor);
       listeners.push(() => document.removeEventListener("click", onAnchor));
 
-      // ---- Parallax del fondo del hero (scrub, sustituye al de ClientEffects) ----
-      const heroBg = document.querySelector<HTMLElement>(".hero-bg");
-      if (heroBg && !reduce) {
+      // ---- Parallax + oscurecido del fondo del hero al scroll (scrub) ----
+      // Movemos/oscurecemos la ENVOLTURA; la imagen deriva sola (Ken Burns CSS).
+      const heroBgWrap = document.querySelector<HTMLElement>(".hero-bg-wrap");
+      if (heroBgWrap && !reduce) {
         gsap.fromTo(
-          heroBg,
-          { yPercent: -6, scale: 1.16 },
-          { yPercent: 8, scale: 1.16, ease: "none",
+          heroBgWrap,
+          { yPercent: -5, scale: 1.08, filter: "brightness(1)" },
+          { yPercent: 9, scale: 1.08, filter: "brightness(.48)", ease: "none",
             scrollTrigger: { trigger: ".hero-cine", start: "top top", end: "bottom top", scrub: true } }
         );
       }

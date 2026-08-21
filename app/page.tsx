@@ -41,21 +41,31 @@ export default function Home() {
         </div>
       </header>
 
-      {/* TICKER */}
-      <div className="ticker" aria-hidden="true">
-        <div className="ticker-track">
-          {[...tickerItems, ...tickerItems].map((t, i) => (
-            <span key={i}><span>{t}</span><span className="ticker-dot" /></span>
-          ))}
+      {/* FRANJA DE ESTADO — rotador vertical (no marquesina) */}
+      <div className="trust-bar" aria-label="Garantías Master Bike">
+        <div className="container trust-inner">
+          <span className="trust-tag">Máster Bike</span>
+          <span className="trust-sep" aria-hidden="true" />
+          <div className="trust-rot" aria-hidden="true">
+            <ul className="trust-roll">
+              {[...tickerItems, tickerItems[0]].map((t, i) => (
+                <li key={i} className="trust-item">{t}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
       <main>
         {/* HERO CINEMATOGRÁFICO */}
         <section className="hero hero-cine">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="hero-bg" src="/tecnico.webp" alt="Técnico de Master Bike trabajando" />
+          <div className="hero-bg-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="hero-bg" src="/tecnico.webp" alt="Técnico de Master Bike trabajando" />
+          </div>
           <div className="hero-scrim" aria-hidden="true" />
+          <div className="hero-glow" aria-hidden="true" />
+          <div className="hero-grain" aria-hidden="true" />
           <div className="container hero-cine-inner">
             <div className="hero-copy">
               <h1 className="hero-title">

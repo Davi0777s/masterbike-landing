@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { config } from "@/lib/config";
 import { Icon, waHref } from "@/lib/icons";
 
-const PIPS = ["Máquina", "Servicio", "Fecha", "Datos"];
 type Slot = { iso: string; label: string };
+const cv = (i: number) => ({ "--i": i } as CSSProperties);
 
 function fmtFecha(v: string) {
   if (!v) return "—";
@@ -32,7 +32,6 @@ export default function Agenda() {
 
   const hoy = useMemo(() => new Date().toISOString().split("T")[0], []);
   const maquinaLabel = config.maquinas.find((m) => m.id === maquinaId)?.label ?? "";
-  const machineIcon = config.maquinas.find((m) => m.id === maquinaId)?.icon ?? "otra";
   const servicioTitulo = config.servicios.find((s) => s.id === servicioId)?.titulo ?? "";
   const includes = config.servicios.find((s) => s.id === servicioId)?.incluye ?? [];
   const go = (n: number) => { setStep(Math.max(1, Math.min(4, n))); setError(""); };
@@ -84,17 +83,15 @@ Zona: ${config.cobertura}
     setSubmitting(false);
   }
 
-  const pip = (i: number) => `flow-pip${step === i ? " is-active" : ""}${i < step ? " is-done" : ""}`;
-
   return (
     <section className="agenda" id="agenda">
       <div className="container">
-        <div className="section-head mb-reveal">
+        <div className="section-head section-head-center mb-reveal">
           <h2 className="section-title">Agenda en 2 minutos</h2>
           <p className="section-lead">Elige máquina, servicio y un horario libre. Tu cita queda registrada y se abre WhatsApp con la orden.</p>
         </div>
 
-        <div className="agenda-grid">
+        <div className="agenda-stage mb-reveal d1">
           {done ? (
             <div className="agenda-flow agenda-done">
               <span className="done-check"><Icon name="check" /></span>
@@ -103,129 +100,111 @@ Zona: ${config.cobertura}
               <a href={waHref(config.whatsapp, buildMsg())} className="btn btn-primary btn-lg js-whatsapp" target="_blank" rel="noopener">Abrir WhatsApp</a>
             </div>
           ) : (
-            <form className="agenda-flow mb-reveal" onSubmit={submit} noValidate>
-              <div className="flow-bar" role="list" aria-label="Progreso de la agenda">
-                {PIPS.map((label, i) => (
-                  <button type="button" key={label} className={pip(i + 1)} role="listitem"
-                    onClick={() => i + 1 < step && go(i + 1)} disabled={i + 1 >= step}
-                    aria-current={step === i + 1 ? "step" : undefined}>
-                    <span className="flow-num">{i + 1}</span> {label}
+            <form className="agenda-flow" onSubmit={submit} noValidate>
+              {/* Resumen colapsado de lo ya elegido (cada fila permite volver a ese paso) */}
+              <div className="flow-summary">
+                {step > 1 && (
+                  <button type="button" className="fs-row" onClick={() => go(1)}>
+                    <span className="fs-k">Máquina</span><span className="fs-v">{maquinaLabel}</span><span className="fs-change">cambiar</span>
                   </button>
-                ))}
+                )}
+                {step > 2 && (
+                  <button type="button" className="fs-row" onClick={() => go(2)}>
+                    <span className="fs-k">Servicio</span><span className="fs-v">{servicioTitulo}</span><span className="fs-change">cambiar</span>
+                  </button>
+                )}
+                {step > 3 && (
+                  <button type="button" className="fs-row" onClick={() => go(3)}>
+                    <span className="fs-k">Cuándo</span><span className="fs-v">{fmtFecha(fecha)} · {slotLabel}</span><span className="fs-change">cambiar</span>
+                  </button>
+                )}
               </div>
 
-              {step === 1 && (
-                <div className="flow-step is-active">
-                  <p className="flow-q">¿Qué máquina necesitas revisar?</p>
-                  <div className="choice-grid">
-                    {config.maquinas.map((m) => (
-                      <label key={m.id} className={"choice" + (maquinaId === m.id ? " checked" : "")}>
-                        <input type="radio" name="maquina" checked={maquinaId === m.id}
-                          onChange={() => { setMaquinaId(m.id); setTimeout(() => go(2), 160); }} />
-                        <Icon name={m.icon} /> <span>{m.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                  <p className="flow-hint">Toca una opción para continuar</p>
-                </div>
-              )}
-
-              {step === 2 && (
-                <div className="flow-step is-active">
-                  <p className="flow-q">¿Qué servicio necesitas?</p>
-                  <div className="choice-list">
-                    {config.servicios.map((s) => (
-                      <label key={s.id} className={"choice" + (servicioId === s.id ? " checked" : "")}>
-                        <input type="radio" name="servicio" checked={servicioId === s.id}
-                          onChange={() => { setServicioId(s.id); setTimeout(() => go(3), 160); }} />
-                        <span><strong>{s.titulo}</strong><span className="choice-desc">{s.desc}</span></span>
-                      </label>
-                    ))}
-                  </div>
-                  <div className="flow-nav"><button type="button" className="flow-back" onClick={() => go(1)}>← Atrás</button></div>
-                </div>
-              )}
-
-              {step === 3 && (
-                <div className="flow-step is-active">
-                  <p className="flow-q">¿Qué día? Elige un horario libre</p>
-                  <label htmlFor="f-fecha">Fecha (Lun–Sáb)</label>
-                  <input id="f-fecha" type="date" min={hoy} value={fecha} onChange={(e) => loadSlots(e.target.value)} />
-                  {fecha && (
-                    <div className="slots-wrap">
-                      {loadingSlots ? <p className="flow-hint">Buscando horarios…</p>
-                        : slots.length ? (
-                          <div className="slot-grid">
-                            {slots.map((s) => (
-                              <button type="button" key={s.iso} className={"slot-btn" + (slotIso === s.iso ? " sel" : "")}
-                                onClick={() => { setSlotIso(s.iso); setSlotLabel(s.label); setTimeout(() => go(4), 160); }}>
-                                {s.label}
-                              </button>
-                            ))}
-                          </div>
-                        ) : <p className="flow-hint">Sin horarios libres ese día. Prueba otra fecha (no atiendo domingos).</p>}
+              <div className="agenda-steps">
+                {step === 1 && (
+                  <div className="flow-step is-active">
+                    <p className="flow-q casc-item" style={cv(0)}>¿Qué máquina necesitas revisar?</p>
+                    <div className="choice-grid">
+                      {config.maquinas.map((m, i) => (
+                        <label key={m.id} className={"choice casc-item" + (maquinaId === m.id ? " checked" : "")} style={cv(i + 1)}>
+                          <input type="radio" name="maquina" checked={maquinaId === m.id}
+                            onChange={() => { setMaquinaId(m.id); setTimeout(() => go(2), 200); }} />
+                          <Icon name={m.icon} /> <span>{m.label}</span>
+                        </label>
+                      ))}
                     </div>
-                  )}
-                  <div className="flow-nav"><button type="button" className="flow-back" onClick={() => go(2)}>← Atrás</button></div>
-                </div>
-              )}
+                    <p className="flow-hint casc-item" style={cv(config.maquinas.length + 1)}>Toca una opción para continuar</p>
+                  </div>
+                )}
 
-              {step === 4 && (
-                <div className="flow-step is-active">
-                  <p className="flow-q">Tus datos para coordinar</p>
-                  <div className="fld-grid">
-                    <div><label htmlFor="f-nombre">Tu nombre</label>
-                      <input id="f-nombre" type="text" placeholder="Nombre y apellido" value={nombre} onChange={(e) => setNombre(e.target.value)} /></div>
-                    <div><label htmlFor="f-tel">Teléfono / WhatsApp</label>
-                      <input id="f-tel" type="tel" placeholder="300 000 0000" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></div>
+                {step === 2 && (
+                  <div className="flow-step is-active">
+                    <p className="flow-q casc-item" style={cv(0)}>¿Qué servicio necesitas?</p>
+                    <div className="choice-list">
+                      {config.servicios.map((s, i) => (
+                        <label key={s.id} className={"choice casc-item" + (servicioId === s.id ? " checked" : "")} style={cv(i + 1)}>
+                          <input type="radio" name="servicio" checked={servicioId === s.id}
+                            onChange={() => { setServicioId(s.id); setTimeout(() => go(3), 200); }} />
+                          <span><strong>{s.titulo}</strong><span className="choice-desc">{s.desc}</span></span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
-                  <label htmlFor="f-notas">Dirección o notas (opcional)</label>
-                  <textarea id="f-notas" rows={2} placeholder="Barrio / dirección, marca de la máquina, falla que notas…" value={notas} onChange={(e) => setNotas(e.target.value)} />
-                  {error && <p className="form-error">{error}</p>}
-                  <div className="flow-nav">
-                    <button type="button" className="flow-back" onClick={() => go(3)}>← Atrás</button>
-                    <button type="submit" className="btn btn-primary btn-lg" disabled={submitting}>
-                      {submitting ? "Agendando…" : <>Confirmar cita <Icon name="arrow" /></>}
-                    </button>
+                )}
+
+                {step === 3 && (
+                  <div className="flow-step is-active">
+                    <p className="flow-q casc-item" style={cv(0)}>¿Qué día? Elige un horario libre</p>
+                    <label htmlFor="f-fecha" className="casc-item" style={cv(1)}>Fecha (Lun–Sáb)</label>
+                    <input id="f-fecha" className="casc-item" style={cv(2)} type="date" min={hoy} value={fecha} onChange={(e) => loadSlots(e.target.value)} />
+                    {fecha && (
+                      <div className="slots-wrap">
+                        {loadingSlots ? <p className="flow-hint">Buscando horarios…</p>
+                          : slots.length ? (
+                            <div className="slot-grid">
+                              {slots.map((s, i) => (
+                                <button type="button" key={s.iso} className={"slot-btn casc-item" + (slotIso === s.iso ? " sel" : "")} style={cv(i)}
+                                  onClick={() => { setSlotIso(s.iso); setSlotLabel(s.label); setTimeout(() => go(4), 200); }}>
+                                  {s.label}
+                                </button>
+                              ))}
+                            </div>
+                          ) : <p className="flow-hint">Sin horarios libres ese día. Prueba otra fecha (no atiendo domingos).</p>}
+                      </div>
+                    )}
                   </div>
-                  <p className="form-fineprint">Se registra tu cita y se abre WhatsApp con la orden lista.</p>
-                </div>
-              )}
-              {step !== 4 && error && <p className="form-error" style={{ marginTop: 12 }}>{error}</p>}
+                )}
+
+                {step === 4 && (
+                  <div className="flow-step is-active">
+                    <p className="flow-q casc-item" style={cv(0)}>Tus datos para coordinar</p>
+                    {includes.length > 0 && (
+                      <div className="flow-includes casc-item" style={cv(1)}>
+                        <span className="fi-title">{servicioTitulo} · incluye</span>
+                        <ul>{includes.map((it, i) => <li key={i}><Icon name="check" /><span>{it}</span></li>)}</ul>
+                      </div>
+                    )}
+                    <div className="fld-grid casc-item" style={cv(2)}>
+                      <div><label htmlFor="f-nombre">Tu nombre</label>
+                        <input id="f-nombre" type="text" placeholder="Nombre y apellido" value={nombre} onChange={(e) => setNombre(e.target.value)} /></div>
+                      <div><label htmlFor="f-tel">Teléfono / WhatsApp</label>
+                        <input id="f-tel" type="tel" placeholder="300 000 0000" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></div>
+                    </div>
+                    <label htmlFor="f-notas" className="casc-item" style={cv(3)}>Dirección o notas (opcional)</label>
+                    <textarea id="f-notas" className="casc-item" style={cv(3)} rows={2} placeholder="Barrio / dirección, marca de la máquina, falla que notas…" value={notas} onChange={(e) => setNotas(e.target.value)} />
+                    {error && <p className="form-error">{error}</p>}
+                    <div className="flow-nav casc-item" style={cv(4)}>
+                      <button type="submit" className="btn btn-primary btn-lg" disabled={submitting}>
+                        {submitting ? "Agendando…" : <>Confirmar cita <Icon name="arrow" /></>}
+                      </button>
+                    </div>
+                    <p className="form-fineprint casc-item" style={cv(5)}>Se registra tu cita y se abre WhatsApp con la orden lista.</p>
+                  </div>
+                )}
+                {step !== 4 && error && <p className="form-error" style={{ marginTop: 12 }}>{error}</p>}
+              </div>
             </form>
           )}
-
-          <aside className="agenda-preview mb-reveal d1">
-            <div className="device">
-              <div className="device-grid" aria-hidden="true" />
-              <span className="device-corner tl" /><span className="device-corner tr" />
-              <span className="device-corner bl" /><span className="device-corner br" />
-              {maquinaId ? (
-                <>
-                  <div className="device-machine" key={maquinaId}>
-                    <Icon name={machineIcon} className="device-ico" />
-                  </div>
-                  <div className="device-scan" aria-hidden="true" />
-                  <span className="device-label">{maquinaLabel}</span>
-                  {done && <span className="device-done"><Icon name="check" /> Registrada</span>}
-                </>
-              ) : (
-                <p className="device-empty">Elige tu máquina<br />para verla aquí</p>
-              )}
-            </div>
-
-            {includes.length > 0 && (
-              <div className="preview-includes">
-                <p className="pi-title">{servicioTitulo} · incluye</p>
-                <ul>{includes.map((it, i) => <li key={i}><Icon name="check" /><span>{it}</span></li>)}</ul>
-              </div>
-            )}
-
-            <div className="preview-summary">
-              <div><span>Fecha</span><strong>{fecha ? fmtFecha(fecha) : "—"}</strong></div>
-              <div><span>Hora</span><strong>{slotLabel || "—"}</strong></div>
-            </div>
-          </aside>
         </div>
       </div>
     </section>
