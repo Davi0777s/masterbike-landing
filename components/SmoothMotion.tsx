@@ -42,14 +42,26 @@ export default function SmoothMotion() {
         gsap.ticker.add(tickerFn);
         gsap.ticker.lagSmoothing(0);
         root.classList.add("lenis-on");
-
-        // Marquesina reactiva a la velocidad de scroll (skew sutil)
-        lenis.on("scroll", (e: any) => {
-          const v = e?.velocity ?? 0;
-          const sk = gsap.utils.clamp(-6, 6, v * 0.35);
-          gsap.to(".ticker-track, .brands-track", { skewX: sk, duration: 0.35, overwrite: true });
-        });
       }
+
+      // ---- Enlaces ancla con scroll suave + offset del header fijo ----
+      const onAnchor = (ev: MouseEvent) => {
+        const a = (ev.target as HTMLElement).closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+        if (!a) return;
+        const href = a.getAttribute("href") || "";
+        if (href.length < 2) return;
+        const target = document.querySelector<HTMLElement>(href);
+        if (!target) return;
+        ev.preventDefault();
+        const headerH = (document.querySelector<HTMLElement>(".site-header")?.offsetHeight ?? 72) + 14;
+        if (lenis) lenis.scrollTo(target, { offset: -headerH, duration: 1.2 });
+        else {
+          const y = target.getBoundingClientRect().top + window.scrollY - headerH;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      };
+      document.addEventListener("click", onAnchor);
+      listeners.push(() => document.removeEventListener("click", onAnchor));
 
       // ---- Parallax del fondo del hero (scrub, sustituye al de ClientEffects) ----
       const heroBg = document.querySelector<HTMLElement>(".hero-bg");
@@ -65,7 +77,7 @@ export default function SmoothMotion() {
       // ---- Hero cinético: revelado por palabras con máscara ----
       const heroTitle = document.querySelector<HTMLElement>(".hero-title");
       const seen = sessionStorage.getItem("mb_preloaded");
-      const introDelay = reduce ? 0 : seen ? 0.25 : 1.9;
+      const introDelay = reduce ? 0 : seen ? 0.25 : 2.2;
 
       if (heroTitle && !reduce) {
         const words: HTMLElement[] = [];
@@ -109,6 +121,10 @@ export default function SmoothMotion() {
       }
 
       ScrollTrigger.refresh();
+      // Reposiciona los triggers cuando terminan de cargar imágenes (evita desfases).
+      const onLoad = () => ScrollTrigger.refresh();
+      window.addEventListener("load", onLoad);
+      listeners.push(() => window.removeEventListener("load", onLoad));
       window.clearTimeout(safety);
     })().catch(() => {
       window.clearTimeout(safety);
