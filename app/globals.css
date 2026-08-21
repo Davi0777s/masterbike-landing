@@ -370,6 +370,60 @@ p { margin: 0; }
   .js-reveal .ba-label-despues { opacity: 1 !important; transition: none !important; }
 }
 
+/* ======================= MOTION ENGINE (Lenis + GSAP) ======================= */
+/* Scroll suave (Lenis añade estas clases al <html>) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Hero cinético: GSAP controla el revelado; ocultamos hasta animar (sin parpadeo) */
+.gsap-hero .hero-cine .hero-title,
+.gsap-hero .hero-cine .hero-sub,
+.gsap-hero .hero-cine .hero-actions,
+.gsap-hero .hero-cine .hero-spec { opacity: 0; }
+/* Máscara por línea para el revelado por palabras (con aire para descendentes).
+   opacity:1 anula el .mb-reveal genérico: GSAP anima las PALABRAS, no la línea. */
+.gsap-hero .hero-title .hl { opacity: 1; filter: none; overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
+.gsap-hero .hero-title .hl .word { display: inline-block; }
+/* Si el motor falla o hay reduce-motion: hero visible sin animación */
+.motion-fallback .hero-cine .hero-title,
+.motion-fallback .hero-cine .hero-sub,
+.motion-fallback .hero-cine .hero-actions,
+.motion-fallback .hero-cine .hero-spec { opacity: 1 !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .gsap-hero .hero-cine .hero-title,
+  .gsap-hero .hero-cine .hero-sub,
+  .gsap-hero .hero-cine .hero-actions,
+  .gsap-hero .hero-cine .hero-spec { opacity: 1 !important; }
+}
+
+/* ======================= PRELOADER (intro diagnóstico) ======================= */
+.preloader { position: fixed; inset: 0; z-index: 9999; background: #0a0a0b; display: grid; place-items: center;
+  transition: transform .8s cubic-bezier(.76,0,.24,1); }
+.preloader.is-leaving { transform: translateY(-100%); }
+.pl-inner { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 24px; }
+.pl-brand { position: relative; display: flex; gap: .3em; font-weight: 800; letter-spacing: .1em; line-height: 1;
+  font-size: clamp(1.9rem, 6.5vw, 3.6rem); }
+.pl-word { color: #fff; opacity: 0; transform: translateY(20px);
+  animation: pl-word-in .7s cubic-bezier(.16,1,.3,1) forwards; }
+.pl-word.pl-accent { color: var(--rojo); animation-delay: .12s; }
+@keyframes pl-word-in { to { opacity: 1; transform: none; } }
+.pl-scan { position: absolute; left: -8%; right: -8%; top: 50%; height: 2px; transform: translateY(-50%) scaleX(0);
+  background: linear-gradient(90deg, transparent, var(--rojo), transparent); opacity: 0;
+  animation: pl-scan 1.3s .25s cubic-bezier(.16,1,.3,1) forwards; }
+@keyframes pl-scan { 0% { transform: translateY(-50%) scaleX(0); opacity: 0; } 30% { opacity: 1; } 70% { opacity: 1; } 100% { transform: translateY(-50%) scaleX(1); opacity: 0; } }
+.pl-status { display: inline-flex; align-items: center; gap: 8px; font-size: .72rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gris-mute-dark); opacity: 0; animation: pl-fade .5s .55s forwards; }
+.pl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rojo); animation: pl-pulse 1s infinite; }
+@keyframes pl-fade { to { opacity: 1; } }
+@keyframes pl-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .22; } }
+.pl-bar { width: min(220px, 60vw); height: 2px; background: rgba(255,255,255,.12); border-radius: 2px; overflow: hidden; }
+.pl-bar > span { display: block; height: 100%; width: 0; background: var(--rojo);
+  animation: pl-bar 1.45s .2s cubic-bezier(.5,0,.2,1) forwards; }
+@keyframes pl-bar { to { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .preloader { display: none !important; } }
+
 /* ======================= ORDEN DE SERVICIO (card) ======================= */
 .order-card {
   position: relative; z-index: 1;

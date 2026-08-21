@@ -13,7 +13,8 @@ export default function ClientEffects() {
     });
 
     // ---- Revelado al scroll ----
-    const revealEls = Array.from(document.querySelectorAll<HTMLElement>(".mb-reveal"));
+    // El hero lo anima GSAP (SmoothMotion); aquí revelamos el resto.
+    const revealEls = Array.from(document.querySelectorAll<HTMLElement>(".mb-reveal")).filter((el) => !el.closest(".hero-cine"));
     let io: IntersectionObserver | null = null;
     if ("IntersectionObserver" in window) {
       io = new IntersectionObserver(
@@ -50,9 +51,8 @@ export default function ClientEffects() {
 
     // ---- Barra de progreso + parallax + sombra header ----
     const bar = document.querySelector<HTMLElement>(".scroll-progress");
-    const heroBg = document.querySelector<HTMLElement>(".hero-bg");
     const header = document.querySelector<HTMLElement>(".site-header");
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    // El parallax del hero lo maneja GSAP ScrollTrigger (SmoothMotion).
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
@@ -62,7 +62,6 @@ export default function ClientEffects() {
         const h = document.documentElement.scrollHeight - window.innerHeight || 1;
         if (bar) bar.style.width = Math.min(100, Math.max(0, (st / h) * 100)) + "%";
         if (header) header.classList.toggle("scrolled", st > 8);
-        if (heroBg && !reduce && st < window.innerHeight) heroBg.style.transform = `translateY(${st * 0.14}px) scale(1.08)`;
         ticking = false;
       });
     };

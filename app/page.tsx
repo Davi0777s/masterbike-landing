@@ -4,6 +4,8 @@ import ClientEffects from "@/components/ClientEffects";
 import Agenda from "@/components/Agenda";
 import Faq from "@/components/Faq";
 import BeforeAfter from "@/components/BeforeAfter";
+import Preloader from "@/components/Preloader";
+import SmoothMotion from "@/components/SmoothMotion";
 
 const WA = waHref(c.whatsapp, "Hola Master Bike 👋, quiero información sobre el mantenimiento de mi máquina de gimnasio.");
 const anios = String(c.tecnico.aniosExperiencia);
@@ -13,6 +15,7 @@ const tickerItems = ["Mantenimiento a domicilio", "Ibagué y alrededores", "Toda
 export default function Home() {
   return (
     <>
+      <Preloader />
       <div className="scroll-progress" aria-hidden="true" />
 
       {/* HEADER */}
@@ -309,6 +312,7 @@ export default function Home() {
       <a className="wa-float js-whatsapp" href={WA} target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">{whatsappSvg}</a>
 
       <ClientEffects />
+      <SmoothMotion />
     </>
   );
 }
