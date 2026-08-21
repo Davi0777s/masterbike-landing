@@ -63,8 +63,8 @@ export default function BeforeAfter() {
           <h2 className="section-title">El antes y el después</h2>
           <p className="section-lead">Trabajos reales en Ibagué. La animación va sola, despacio, para que aprecies el detalle: del antes al después.</p>
         </div>
-        {featured && <Frame item={featured} />}
         <div className="ba-grid">
+          {featured && <Frame item={featured} />}
           {rest.map((it) => (
             <Frame key={it.id} item={it} />
           ))}
