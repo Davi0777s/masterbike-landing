@@ -59,6 +59,7 @@ export default function Home() {
                 <span className="hl mb-reveal d1">de gym,</span>
                 <span className="hl accent mb-reveal d2">siempre lista.</span>
               </h1>
+              <span className="hero-scan" aria-hidden="true" />
               <p className="hero-sub mb-reveal d2">
                 Mantenimiento, revisión y reparación de elípticas, caminadoras y bicicletas estáticas.
                 Un solo técnico responsable, respuesta rápida por WhatsApp. <strong>Agenda en menos de 2 minutos.</strong>
@@ -138,7 +139,7 @@ export default function Home() {
               <Icon name="pin" className="ico-lg coverage-pin" />
               <div><h2 className="coverage-title">Atiendo en <span className="accent">{c.coberturaBase}</span> y sus alrededores</h2></div>
             </div>
-            <ul className="coverage-chips mb-reveal d1">
+            <ul className="coverage-chips mb-reveal d1" data-stagger>
               <li className="is-base">{c.coberturaBase}</li>
               {c.municipios.map((m) => <li key={m}>{m}</li>)}
             </ul>

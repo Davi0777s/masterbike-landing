@@ -286,7 +286,46 @@ p { margin: 0; }
 .mb-reveal.d1 { transition-delay: .09s; }
 .mb-reveal.d2 { transition-delay: .18s; }
 .mb-reveal.d3 { transition-delay: .27s; }
-@media (prefers-reduced-motion: reduce) { .mb-reveal { opacity: 1 !important; transform: none !important; } }
+
+/* --- Momento focal: hero con focus-pull (asciende + se enfoca) --- */
+.js-reveal .hero-title .mb-reveal { filter: blur(9px);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), filter .8s cubic-bezier(.16,1,.3,1); }
+.js-reveal .hero-title .mb-reveal.in { filter: blur(0); }
+/* Línea de escáner roja que barre bajo el título una sola vez */
+.hero-scan { display: block; height: 2px; width: 0; margin-top: 10px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--rojo), rgba(214,40,40,0)); opacity: 0; }
+.js-reveal .hero-scan { animation: hero-scan 1.25s .5s cubic-bezier(.16,1,.3,1) both; }
+@keyframes hero-scan {
+  0% { width: 0; opacity: 0; }
+  22% { opacity: 1; }
+  60% { width: min(360px, 68%); opacity: 1; }
+  100% { width: min(300px, 56%); opacity: .55; }
+}
+
+/* --- Firma: títulos de sección se revelan con wipe izquierda→derecha --- */
+.js-reveal .section-head .section-title { clip-path: inset(0 100% 0 0);
+  transition: clip-path .85s cubic-bezier(.16,1,.3,1) .06s; }
+.js-reveal .section-head.in .section-title { clip-path: inset(0 0 0 0); }
+
+/* --- Continuidad: sección técnico, foto y texto entran desde lados opuestos --- */
+.js-reveal .tech-grid .tech-media.mb-reveal { transform: translateX(-32px); }
+.js-reveal .tech-grid .tech-copy.mb-reveal { transform: translateX(32px); }
+.js-reveal .tech-grid .tech-media.mb-reveal.in,
+.js-reveal .tech-grid .tech-copy.mb-reveal.in { transform: none; }
+
+/* --- Cascada: chips de cobertura entran en secuencia --- */
+.js-reveal .coverage-chips[data-stagger].in li {
+  animation: chip-in .55s cubic-bezier(.16,1,.3,1) both;
+  animation-delay: calc(var(--si, 0) * 55ms); }
+@keyframes chip-in { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mb-reveal { opacity: 1 !important; transform: none !important; }
+  .js-reveal .hero-title .mb-reveal { filter: none !important; }
+  .js-reveal .section-head .section-title { clip-path: none !important; }
+  .hero-scan { animation: none !important; opacity: .55; width: min(300px, 56%) !important; }
+  .js-reveal .coverage-chips[data-stagger].in li { animation: none !important; }
+}
 
 /* ======================= ORDEN DE SERVICIO (card) ======================= */
 .order-card {

@@ -7,6 +7,11 @@ export default function ClientEffects() {
     const root = document.documentElement;
     root.classList.add("js-reveal");
 
+    // ---- Índice para cascadas escalonadas (--si en cada hijo) ----
+    document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((c) => {
+      Array.from(c.children).forEach((ch, i) => (ch as HTMLElement).style.setProperty("--si", String(i)));
+    });
+
     // ---- Revelado al scroll ----
     const revealEls = Array.from(document.querySelectorAll<HTMLElement>(".mb-reveal"));
     let io: IntersectionObserver | null = null;
