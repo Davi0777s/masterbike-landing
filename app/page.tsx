@@ -3,6 +3,7 @@ import { Icon, whatsappSvg, waHref } from "@/lib/icons";
 import ClientEffects from "@/components/ClientEffects";
 import Agenda from "@/components/Agenda";
 import Faq from "@/components/Faq";
+import BeforeAfter from "@/components/BeforeAfter";
 
 const WA = waHref(c.whatsapp, "Hola Master Bike 👋, quiero información sobre el mantenimiento de mi máquina de gimnasio.");
 const anios = String(c.tecnico.aniosExperiencia);
@@ -131,6 +132,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ANTES / DESPUÉS */}
+        <BeforeAfter />
 
         {/* COBERTURA */}
         <section className="coverage" id="cobertura">

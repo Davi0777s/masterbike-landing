@@ -327,6 +327,49 @@ p { margin: 0; }
   .js-reveal .coverage-chips[data-stagger].in li { animation: none !important; }
 }
 
+/* ======================= ANTES / DESPUÉS ======================= */
+.ba-featured { max-width: 620px; margin: 0 auto 26px; }
+.ba-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; max-width: 760px; margin: 0 auto; }
+.ba-frame { margin: 0; }
+.ba-stage { position: relative; aspect-ratio: var(--ratio, 1 / 1); border-radius: 16px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.10); background: #0b0b0c; box-shadow: 0 22px 55px -22px rgba(0,0,0,.75); }
+.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+  -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
+.ba-before { z-index: 1; }
+.ba-after { z-index: 2; }
+/* El "después" se revela sobre el "antes" con un barrido izq→der (solo con JS activo).
+   Sin JS queda visible el "después": nunca se rompe. */
+.js-reveal .ba-after { clip-path: inset(0 100% 0 0); transition: clip-path 1.15s cubic-bezier(.16,1,.3,1); }
+.js-reveal .ba-frame.is-revealed .ba-after { clip-path: inset(0 0 0 0); }
+/* Línea de escáner roja viajando en el borde del barrido */
+.ba-scan { position: absolute; top: 0; bottom: 0; left: 0; width: 3px; z-index: 3; opacity: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(228,20,31,0), var(--rojo) 14%, var(--rojo) 86%, rgba(228,20,31,0));
+  box-shadow: 0 0 16px 2px rgba(228,20,31,.7); }
+.js-reveal .ba-frame.is-revealed .ba-scan { animation: ba-scan 1.15s cubic-bezier(.16,1,.3,1) forwards; }
+@keyframes ba-scan { 0% { left: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+/* Etiquetas Antes / Después */
+.ba-label { position: absolute; top: 12px; z-index: 4; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 700; padding: 5px 11px; border-radius: 999px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.ba-label-antes { left: 12px; background: rgba(0,0,0,.55); color: #d8d8d8; border: 1px solid rgba(255,255,255,.16); }
+.ba-label-despues { right: 12px; background: var(--rojo); color: #fff; }
+.js-reveal .ba-label-despues { opacity: 0; transition: opacity .45s ease .78s; }
+.js-reveal .ba-frame.is-revealed .ba-label-despues { opacity: 1; }
+/* Botón repetir */
+.ba-replay { position: absolute; right: 10px; bottom: 10px; z-index: 4; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.18); color: #fff;
+  cursor: pointer; opacity: 0; transition: opacity .3s ease, background .2s ease, border-color .2s ease; }
+.ba-stage:hover .ba-replay, .ba-frame.is-revealed .ba-replay { opacity: .82; }
+.ba-replay:hover { opacity: 1; background: var(--rojo); border-color: var(--rojo); }
+.ba-cap { padding: 14px 4px 0; }
+.ba-cap h3 { font-size: 1.05rem; margin: 0 0 3px; }
+.ba-cap p { font-size: .9rem; line-height: 1.5; color: var(--gris-mute-dark); margin: 0; }
+@media (max-width: 640px) { .ba-grid { grid-template-columns: 1fr; } .ba-featured { max-width: 100%; } }
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .ba-after { clip-path: inset(0 0 0 0) !important; transition: none !important; }
+  .ba-scan { display: none !important; }
+  .js-reveal .ba-label-despues { opacity: 1 !important; transition: none !important; }
+}
+
 /* ======================= ORDEN DE SERVICIO (card) ======================= */
 .order-card {
   position: relative; z-index: 1;

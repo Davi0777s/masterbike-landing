@@ -103,6 +103,13 @@ export const config = {
 
   marcas: ["Life Fitness", "Technogym", "Movement", "Sole", "Sportop", "Athletic", "Randers", "Bowflex", "Precor", "Evolution"],
 
+  // Antes / Después — trabajos reales (imágenes en /public, mismo encuadre por par)
+  transformaciones: [
+    { id: "mancuernas", titulo: "Mancuernas restauradas", desc: "De óxido y desgaste a un acabado negro, como nuevas.", antes: "/ba-mancuernas-antes.webp", despues: "/ba-mancuernas-despues.webp", ratio: "1 / 1", featured: true },
+    { id: "caminadora", titulo: "Banda de caminadora", desc: "De suciedad y residuos acumulados a banda limpia y calibrada.", antes: "/ba-caminadora-antes.webp", despues: "/ba-caminadora-despues.webp", ratio: "2 / 3", featured: false },
+    { id: "eliptica", titulo: "Estructura de elíptica", desc: "De mugre y polvo en el chasis a metal limpio y protegido.", antes: "/ba-eliptica-antes.webp", despues: "/ba-eliptica-despues.webp", ratio: "2 / 3", featured: false },
+  ],
+
   testimonios: [
     { nombre: "Laura M.", zona: "Ibagué", maquina: "Caminadora", rating: 5, foto: "", texto: "La caminadora sonaba horrible y ya no la usábamos. Vino, la dejó como nueva el mismo día y me explicó cómo cuidarla. Súper recomendado." },
     { nombre: "Andrés G.", zona: "El Espinal", maquina: "Elíptica", rating: 5, foto: "", texto: "Respondió por WhatsApp en minutos y llegó puntual. Se nota que sabe lo que hace y cobra justo. Volveré a agendar el mantenimiento." },
