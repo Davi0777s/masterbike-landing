@@ -569,6 +569,11 @@ html.lenis, html.lenis body { height: auto; }
   text-transform: uppercase; color: var(--rojo); margin-bottom: 14px;
 }
 .section-index::before { content: ""; width: 26px; height: 2px; background: var(--rojo); flex: none; }
+.before-after-head { margin-bottom: clamp(34px, 4vw, 46px); }
+.before-after-kicker { display: block; max-width: none; margin-bottom: 12px; color: var(--rojo); font-family: var(--font-display);
+  font-size: clamp(2.3rem, 5.2vw, 4.25rem); line-height: .88; letter-spacing: .015em; text-transform: uppercase; }
+.before-after-kicker::before { display: none; }
+.before-after-kicker span { display: block; }
 .section-title {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 5.6vw, 4rem); letter-spacing: .01em; line-height: .95; color: inherit;

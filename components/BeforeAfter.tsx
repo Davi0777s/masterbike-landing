@@ -59,7 +59,8 @@ export default function BeforeAfter() {
   return (
     <section className="section section-dark" id="transformaciones">
       <div className="container" ref={rootRef}>
-        <div className="section-head mb-reveal">
+        <div className="section-head before-after-head mb-reveal">
+          <p className="section-index before-after-kicker"><span>Devuelve la vida</span><span>a tu máquina</span></p>
           <h2 className="section-title">El antes y el después</h2>
           <p className="section-lead">Trabajos reales en Ibagué. La animación va sola, despacio, para que aprecies el detalle: del antes al después.</p>
         </div>
