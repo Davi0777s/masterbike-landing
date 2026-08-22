@@ -21,7 +21,7 @@ export const config = {
     cargo: "Técnico independiente · Master Bike",
     aniosExperiencia: "15+",
     maquinasAtendidas: 500,
-    frase: "Reviso cada máquina yo mismo. No es un call center, es un solo técnico respondiendo por su trabajo.",
+    frase: "Reviso cada máquina, encuentro la causa de la falla y dejo por escrito el trabajo realizado.",
   },
 
   maquinas: [
@@ -93,7 +93,7 @@ export const config = {
   ],
 
   diferenciadores: [
-    { icon: "user", titulo: "Un solo técnico responsable", desc: "No es un call center ni un técnico distinto cada vez. Yo reviso tu máquina y yo respondo por el trabajo." },
+    { icon: "user", titulo: "Diagnóstico completo", desc: "Reviso el equipo por dentro y por fuera para encontrar la causa real de la falla." },
     { icon: "home", titulo: "A domicilio, sin mover tu máquina", desc: "Voy a donde estás. No tienes que desmontar ni transportar el equipo a ningún taller." },
     { icon: "wallet", titulo: "Sin pago por adelantado", desc: "Primero cotizo tu caso por WhatsApp. Pagas cuando el trabajo está hecho y funcionando." },
     { icon: "tag", titulo: "Todas las marcas", desc: "Atiendo tu equipo sin importar la marca, nacional o importado." },
@@ -113,7 +113,7 @@ export const config = {
   testimonios: [
     { nombre: "Laura M.", zona: "Ibagué", maquina: "Caminadora", rating: 5, foto: "", texto: "La caminadora sonaba horrible y ya no la usábamos. Vino, la dejó como nueva el mismo día y me explicó cómo cuidarla. Súper recomendado." },
     { nombre: "Andrés G.", zona: "El Espinal", maquina: "Elíptica", rating: 5, foto: "", texto: "Respondió por WhatsApp en minutos y llegó puntual. Se nota que sabe lo que hace y cobra justo. Volveré a agendar el mantenimiento." },
-    { nombre: "Catalina R.", zona: "Girardot", maquina: "Bici de spinning", rating: 5, foto: "", texto: "Me encantó que dejara todo por escrito en la orden de servicio. Transparencia total y trato de una persona real, no un call center." },
+    { nombre: "Catalina R.", zona: "Girardot", maquina: "Bici de spinning", rating: 5, foto: "", texto: "Me encantó que dejara todo por escrito en la orden de servicio. La bicicleta quedó ajustada y funcionando muy bien." },
   ],
 
   faqs: [

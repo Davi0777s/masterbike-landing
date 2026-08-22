@@ -678,24 +678,25 @@ html.lenis, html.lenis body { height: auto; }
 .step p { color: var(--gris-300); font-size: .93rem; }
 
 /* ====================== QUIÉN REPARA TU EQUIPO ====================== */
-.tech-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(28px, 5vw, 60px); align-items: center; }
+.tech-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(28px, 5vw, 60px); align-items: center; }
 .tech-media { position: relative; }
-.tech-photo-ph {
-  position: relative; aspect-ratio: 4/5; border-radius: var(--radius); overflow: hidden;
-  background: linear-gradient(135deg, #ececea, #dedddb);
-  border: var(--line);
-}
-/* La foto es horizontal (16:9); en el marco vertical enfocamos al técnico
-   (está centro-derecha) con object-position, sin recortar el archivo. */
-.tech-photo { width: 100%; height: 100%; object-fit: cover; object-position: 58% 30%; }
-.tech-photo-hint {
-  position: absolute; inset: 0; display: none; flex-direction: column;
-  align-items: center; justify-content: center; gap: 12px; text-align: center;
-  color: var(--gris-500); padding: 20px;
-}
-.tech-photo-ph.is-empty .tech-photo-hint { display: flex; }
-.tech-photo-hint code { font-family: var(--font-mono); font-size: .72rem; color: var(--gris); }
-.tech-badge { position: absolute; left: 14px; bottom: 14px; background: var(--negro); color: var(--verde-ok); }
+.tech-gallery-showcase { display: grid; gap: 12px; }
+.tech-gallery-main { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #111214; }
+.tech-feature { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; opacity: 0; transition: opacity .7s var(--ease); pointer-events: none; }
+.tech-feature.is-active { opacity: 1; }
+.tech-feature img { width: 100%; height: 100%; object-fit: contain; display: block; filter: saturate(.92); }
+.tech-feature::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 58%, rgba(8,8,9,.82)); pointer-events: none; }
+.tech-feature figcaption { position: absolute; z-index: 1; left: 18px; right: 18px; bottom: 17px; color: #fff; font-size: .82rem; font-weight: 700; letter-spacing: .03em; }
+.tech-feature figcaption span { color: var(--rojo); font-family: var(--font-mono); margin-right: 8px; }
+.tech-gallery-progress { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.16); }
+.tech-gallery-progress span { display: block; height: 100%; background: var(--rojo); transition: width .7s var(--ease); }
+.tech-gallery-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.tech-gallery-thumbs button { position: relative; aspect-ratio: 4 / 3; min-width: 0; overflow: hidden; padding: 0; border: 1px solid rgba(255,255,255,.14); background: #111214; cursor: pointer; opacity: .56; transition: opacity .25s, border-color .25s, transform .25s; }
+.tech-gallery-thumbs button:hover, .tech-gallery-thumbs button.is-active { opacity: 1; border-color: var(--rojo); }
+.tech-gallery-thumbs button.is-active { transform: translateY(-3px); }
+.tech-gallery-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tech-gallery-thumbs span { position: absolute; left: 7px; bottom: 5px; color: #fff; font: .62rem var(--font-mono); text-shadow: 0 1px 5px #000; }
+.tech-badge { position: absolute; left: 12px; top: 12px; background: var(--negro); color: var(--verde-ok); }
 
 .tech-quote { font-size: clamp(1.3rem, 2.6vw, 1.7rem); font-weight: 600; line-height: 1.35;
   margin: 20px 0 26px; color: var(--negro); }

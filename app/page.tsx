@@ -4,13 +4,14 @@ import ClientEffects from "@/components/ClientEffects";
 import Agenda from "@/components/Agenda";
 import Faq from "@/components/Faq";
 import BeforeAfter from "@/components/BeforeAfter";
+import TechnicianGallery from "@/components/TechnicianGallery";
 import Preloader from "@/components/Preloader";
 import SmoothMotion from "@/components/SmoothMotion";
 
 const WA = waHref(c.whatsapp, "Hola Master Bike 👋, quiero información sobre el mantenimiento de mi máquina de gimnasio.");
 const anios = String(c.tecnico.aniosExperiencia);
 const maquinasN = c.tecnico.maquinasAtendidas + "+";
-const tickerItems = ["Mantenimiento a domicilio", "Ibagué y alrededores", "Todas las marcas", "30 días de garantía", "Un solo técnico responsable", "Confirmación por WhatsApp"];
+const tickerItems = ["Mantenimiento a domicilio", "Ibagué y alrededores", "Todas las marcas", "30 días de garantía", "Diagnóstico en sitio", "Confirmación por WhatsApp"];
 
 export default function Home() {
   return (
@@ -76,7 +77,7 @@ export default function Home() {
               <span className="hero-scan" aria-hidden="true" />
               <p className="hero-sub mb-reveal d2">
                 Mantenimiento, revisión y reparación de elípticas, caminadoras y bicicletas estáticas.
-                Un solo técnico responsable, respuesta rápida por WhatsApp. <strong>Agenda en menos de 2 minutos.</strong>
+                Diagnóstico y mantenimiento para que tu equipo vuelva a funcionar bien. <strong>Agenda en menos de 2 minutos.</strong>
               </p>
               <div className="hero-actions mb-reveal d3">
                 <a href="#agenda" className="btn btn-primary btn-lg js-agendar">Agendar mantenimiento</a>
@@ -164,20 +165,34 @@ export default function Home() {
           </div>
         </section>
 
-        {/* POR QUÉ */}
+        {/* TÉCNICO */}
         <section className="section" id="porque">
-          <div className="container">
-            <div className="section-head mb-reveal">
-              <h2 className="section-title">No es el servicio de una tienda. Es tu técnico.</h2>
-              <p className="section-lead">La diferencia entre un call center que agenda y una persona que responde por tu equipo.</p>
+          <div className="container tech-grid">
+            <div className="tech-media mb-reveal">
+              <TechnicianGallery />
             </div>
-            <div className="dif-grid">
-              {c.diferenciadores.map((d, i) => (
-                <article key={i} className={"dif-card mb-reveal " + ["", "d1", "d2"][i % 3]}>
-                  <span className="dif-ico"><Icon name={d.icon} className="" /></span>
-                  <h3>{d.titulo}</h3><p>{d.desc}</p>
-                </article>
-              ))}
+            <div className="tech-copy mb-reveal d1">
+              <h2 className="section-title">Tu máquina en manos de un experto.</h2>
+              <p className="tech-quote">Cada equipo recibe una revisión completa: identifico la falla, ajusto lo necesario y dejo la máquina lista para trabajar con seguridad.</p>
+              <ul className="tech-stats">
+                <li>
+                  <span className="ts-ico"><Icon name="medal" className="" /></span>
+                  <span className="ts-txt"><span className="ts-num">{anios}</span><span className="ts-lbl">años de experiencia certificada</span></span>
+                </li>
+                <li>
+                  <span className="ts-ico"><Icon name="wrench" className="" /></span>
+                  <span className="ts-txt"><span className="ts-num">{maquinasN}</span><span className="ts-lbl">máquinas atendidas con éxito</span></span>
+                </li>
+                <li>
+                  <span className="ts-ico"><Icon name="pin" className="" /></span>
+                  <span className="ts-txt"><span className="ts-num">{c.coberturaBase}</span><span className="ts-lbl">y alrededores · cobertura completa</span></span>
+                </li>
+              </ul>
+              <div className="signature">
+                <p className="sign-name">{c.tecnico.nombre}</p>
+                <p className="sign-role">Técnico experto independiente · Master Bike</p>
+              </div>
+              <a href="#agenda" className="btn btn-primary js-agendar">Agendar con el técnico</a>
             </div>
           </div>
         </section>
@@ -201,42 +216,6 @@ export default function Home() {
 
         {/* AGENDA (cliente) */}
         <Agenda />
-
-        {/* TÉCNICO */}
-        <section className="section" id="tecnico">
-          <div className="container tech-grid">
-            <div className="tech-media mb-reveal">
-              <div className="tech-photo-ph">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="tech-photo" src="/tecnico.webp" alt="El técnico de Master Bike en el taller" />
-              </div>
-              <span className="badge badge-ok tech-badge">Persona real, no un call center</span>
-            </div>
-            <div className="tech-copy mb-reveal d1">
-              <h2 className="section-title">Tu máquina en manos de un experto.</h2>
-              <p className="tech-quote">Servicio directo y transparente: yo mismo reviso cada detalle de tu equipo, sin intermediarios ni call centers. Respondo personalmente por cada trabajo.</p>
-              <ul className="tech-stats">
-                <li>
-                  <span className="ts-ico"><Icon name="medal" className="" /></span>
-                  <span className="ts-txt"><span className="ts-num">{anios}</span><span className="ts-lbl">años de experiencia certificada</span></span>
-                </li>
-                <li>
-                  <span className="ts-ico"><Icon name="wrench" className="" /></span>
-                  <span className="ts-txt"><span className="ts-num">{maquinasN}</span><span className="ts-lbl">máquinas atendidas con éxito</span></span>
-                </li>
-                <li>
-                  <span className="ts-ico"><Icon name="pin" className="" /></span>
-                  <span className="ts-txt"><span className="ts-num">{c.coberturaBase}</span><span className="ts-lbl">y alrededores · cobertura completa</span></span>
-                </li>
-              </ul>
-              <div className="signature">
-                <p className="sign-name">{c.tecnico.nombre}</p>
-                <p className="sign-role">Técnico experto independiente · Master Bike</p>
-              </div>
-              <a href="#agenda" className="btn btn-primary js-agendar">Agendar con el técnico</a>
-            </div>
-          </div>
-        </section>
 
         {/* RESEÑAS */}
         <section className="section" id="resenas">
@@ -308,7 +287,7 @@ export default function Home() {
         </div>
         <div className="container footer-bottom">
           <p>© {new Date().getFullYear()} Master Bike. Todos los derechos reservados.</p>
-          <p>Hecho con enfoque técnico, no de call center.</p>
+          <p>Diagnóstico, reparación y mantenimiento para equipos de gimnasio.</p>
         </div>
       </footer>
 
